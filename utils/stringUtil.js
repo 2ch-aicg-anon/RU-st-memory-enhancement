@@ -4,10 +4,10 @@ import { USER } from "../core/manager.js";
  * 替换字符串中的user标签
  */
 export function replaceUserTag(str) {
-    if (str == null) return ''; // 处理 null 或 undefined
+    if (str == null) return ''; // handle null or undefined
     if (typeof str !== 'string') {
-        console.warn('非字符串输入:', str);
-        str = String(str); // 强制转换为字符串
+        console.warn('Non-string input:', str);
+        str = String(str); // force to string
     }
     return str.replace(/<user>/g, USER.getContext().name1);
 }
@@ -47,7 +47,7 @@ export function truncateAfterLastParenthesis(str) {
 export function parseLooseDict(str) {
     const result = {};
     const content = str.replace(/\s+/g, '').replace(/\\"/g, '"').slice(1, -1);
-    console.log("解析",content)
+    console.log('Parsing', content)
     let i = 0;
     const len = content.length;
 
@@ -105,7 +105,7 @@ export function parseLooseDict(str) {
             i++;
         }
     }
-    console.log('解析后的对象:', result);
+    console.log('Parsed object:', result);
 
     return result;
 }
@@ -117,7 +117,7 @@ export function parseLooseDict(str) {
  */
 export function parseManualJson(jsonStr) {
     if (!jsonStr || typeof jsonStr !== 'string') {
-        throw new Error('输入必须是有效的字符串');
+        throw new Error('Input must be a valid string');
     }
 
     const str = jsonStr.trim();
@@ -141,7 +141,7 @@ export function parseManualJson(jsonStr) {
         } else if (char === '-' || (char >= '0' && char <= '9')) {
             return parseNumber();
         } else {
-            throw new Error(`意外字符 '${char}' 在位置 ${index}`);
+            throw new Error(`Unexpected character '${char}' at position ${index}`);
         }
     }
 
@@ -161,7 +161,7 @@ export function parseManualJson(jsonStr) {
             skipWhitespace();
 
             if (str[index] !== ':') {
-                throw new Error(`期望 ':' 在位置 ${index}`);
+                throw new Error(`Expected ':' at position ${index}`);
             }
             index++; // 跳过 ':'
             skipWhitespace();
@@ -179,7 +179,7 @@ export function parseManualJson(jsonStr) {
                 index++; // 跳过 ','
                 skipWhitespace();
             } else {
-                throw new Error(`期望 ',' 或 '}' 在位置 ${index}`);
+                throw new Error(`Expected ',' or '}' at position ${index}`);
             }
         }
 
@@ -209,7 +209,7 @@ export function parseManualJson(jsonStr) {
                 index++; // 跳过 ','
                 skipWhitespace();
             } else {
-                throw new Error(`期望 ',' 或 ']' 在位置 ${index}`);
+                throw new Error(`Expected ',' or ']' at position ${index}`);
             }
         }
 
@@ -219,7 +219,7 @@ export function parseManualJson(jsonStr) {
     function parseString() {
         const quoteChar = str[index]; // '"' 或 "'"
         if (quoteChar !== '"' && quoteChar !== "'") {
-            throw new Error(`期望引号在位置 ${index}`);
+            throw new Error(`Expected quote at position ${index}`);
         }
 
         index++; // 跳过起始引号
@@ -244,7 +244,7 @@ export function parseManualJson(jsonStr) {
                 // 处理转义字符
                 index++;
                 if (index >= str.length) {
-                    throw new Error('意外的字符串结束');
+                    throw new Error('Unexpected end of string');
                 }
                 
                 const nextChar = str[index];
@@ -273,7 +273,7 @@ export function parseManualJson(jsonStr) {
                     case 'u':
                         // Unicode 转义
                         if (index + 4 >= str.length) {
-                            throw new Error('不完整的 Unicode 转义');
+                            throw new Error('Incomplete Unicode escape');
                         }
                         const unicode = str.substr(index + 1, 4);
                         result += String.fromCharCode(parseInt(unicode, 16));
@@ -332,7 +332,7 @@ export function parseManualJson(jsonStr) {
             index += 5;
             return false;
         } else {
-            throw new Error(`无效的布尔值在位置 ${index}`);
+            throw new Error(`Invalid boolean value at position ${index}`);
         }
     }
 
@@ -341,7 +341,7 @@ export function parseManualJson(jsonStr) {
             index += 4;
             return null;
         } else {
-            throw new Error(`无效的 null 值在位置 ${index}`);
+            throw new Error(`Invalid null value at position ${index}`);
         }
     }
 
@@ -356,13 +356,13 @@ export function parseManualJson(jsonStr) {
         skipWhitespace();
         
         if (index < str.length) {
-            throw new Error(`解析完成后还有多余字符在位置 ${index}`);
+            throw new Error(`Extra characters after parsing at position ${index}`);
         }
         
-        console.log('手动解析 JSON 成功:', result);
+        console.log('Manual JSON parse succeeded:', result);
         return result;
     } catch (error) {
-        console.error('JSON 解析错误:', error.message);
+        console.error('JSON parse error:', error.message);
         throw error;
     }
 }
@@ -374,7 +374,7 @@ export function parseManualJson(jsonStr) {
  */
 export function safeParse(jsonStr) {
     if (!jsonStr || typeof jsonStr !== 'string') {
-        throw new Error('输入必须是有效的字符串');
+        throw new Error('Input must be a valid string');
     }
 
     const results = [];
@@ -427,21 +427,21 @@ export function safeParse(jsonStr) {
         if (bracketEnd !== -1) {
             // 提取JSON数组字符串
             const jsonArrayStr = jsonStr.substring(bracketStart, bracketEnd + 1);
-            console.log('发现JSON数组:', jsonArrayStr);
+            console.log('Found JSON array:', jsonArrayStr);
 
             try {
                 // 优先使用原生 JSON.parse
                 const parsed = JSON.parse(jsonArrayStr);
                 results.push(parsed);
-                console.log('成功解析JSON数组:', parsed);
+                console.log('Parsed JSON array successfully:', parsed);
             } catch (error) {
-                console.warn('原生 JSON.parse 失败，尝试手动解析:', error.message);
+                console.warn('Native JSON.parse failed, attempting manual parse:', error.message);
                 try {
                     const parsed = parseManualJson(jsonArrayStr);
                     results.push(parsed);
-                    console.log('手动解析成功:', parsed);
-                } catch (manualError) {
-                    console.error('手动解析也失败:', manualError.message);
+                      console.log('Manual parse succeeded:', parsed);
+                  } catch (manualError) {
+                      console.error('Manual parse also failed:', manualError.message);
                     // 继续查找下一个数组，不抛出错误
                 }
             }
@@ -454,10 +454,10 @@ export function safeParse(jsonStr) {
     }
 
     if (results.length === 0) {
-        console.warn('未找到有效的JSON数组');
+        console.warn('No valid JSON array found');
         return [];
     }
 
-    console.log(`总共解析出 ${results.length} 个JSON数组:`, results);
+    console.log(`Parsed ${results.length} JSON arrays:`, results);
     return results;
 }

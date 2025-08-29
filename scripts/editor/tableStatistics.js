@@ -23,11 +23,11 @@ const statistics = `
 </style>
 <div class="table-statistics">
     <div id="dialogue_popup_text">
-        <h3>表格数据统计</h3>
+        <h3>Статистика таблиц</h3>
         <div class="table-statistics-header">
             <div class="menu_button_icon menu_button interactable gap5" id="clear_table_statistics_button" tabindex="0">
                 <i class="fa-solid fa-broom"></i>
-                <span>清理不在对话树的历史单元</a>
+                <span>Очистить историю вне дерева диалога</span>
             </div>
         </div>
         <div class="table-statistics-content">
@@ -49,11 +49,11 @@ async function updataTableStatisticsData(container) {
 
     // 定义要显示的统计数据
     const statsData = [
-        { label: '已开启表格数量', value: sheets.length },
-        { label: '历史总单元格数量', value: cellHistories.reduce((acc, cellHistory) => acc + cellHistory.length, 0) },
-        { label: '历史数据总大小', value: `${(JSON.stringify(sheetsData).length / 1024).toFixed(2)} KB` },
-        { label: '当前表格模糊计算的Token数', value: Math.round(sheetsValueCount * 0.6) },
-        { label: '当前表格最后一次修改位置', value: lastChangeFloor }
+        { label: 'Количество активных таблиц', value: sheets.length },
+        { label: 'Общее число ячеек в истории', value: cellHistories.reduce((acc, cellHistory) => acc + cellHistory.length, 0) },
+        { label: 'Общий размер исторических данных', value: `${(JSON.stringify(sheetsData).length / 1024).toFixed(2)} KB` },
+        { label: 'Примерное число токенов в таблицах', value: Math.round(sheetsValueCount * 0.6) },
+        { label: 'Последняя позиция изменения', value: lastChangeFloor }
     ];
 
     // 获取内容容器
@@ -106,11 +106,11 @@ async function clearTableStatisticsButton(statisticsContainer) {
     setTimeout(() => {
         if (lastCellHistoryHashNum === cellHistoryHashNum) {
             updataTableStatisticsData(statisticsContainer);
-            EDITOR.success(`清理历史单元格操作完成, 有效单元格数量: ${cellHistoryHashNum}`);
+            EDITOR.success(`Очистка завершена, число действительных ячеек: ${cellHistoryHashNum}`);
             USER.saveChat()
             return;
         } else {
-            EDITOR.info(`本轮清理单元格数量: ${lastCellHistoryHashNum - cellHistoryHashNum}`);
+            EDITOR.info(`В этом проходе очищено ячеек: ${lastCellHistoryHashNum - cellHistoryHashNum}`);
             clearTableStatisticsButton(statisticsContainer)
         }
     }, 0)

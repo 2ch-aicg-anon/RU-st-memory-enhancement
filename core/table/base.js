@@ -50,7 +50,7 @@ export class SheetBase {
             alternateLevel: 0,                     // 用于标记是穿插并到一起,为0表示不穿插，大于0按同层级穿插
             skipTop: false,                     // 用于标记是否跳过表头
             selectedCustomStyleKey: '',       // 用于存储选中的自定义样式，当selectedCustomStyleUid没有值时，使用默认样式
-            customStyles: {'自定义样式': {...customStyleConfig}},                 // 用于存储自定义样式
+            customStyles: {'Custom Style': {...customStyleConfig}},                 // 用于存储自定义样式
         }
 
         // 临时属性
@@ -78,7 +78,7 @@ export class SheetBase {
                         });
                     });
                     this._cellPositionCacheDirty = false;   // 更新完成，标记为干净
-                    console.log('重新计算 positionCache: ', map);
+                    console.log('Recalculating positionCache: ', map);
                 }
                 return map.get(uid);
             },
@@ -193,7 +193,7 @@ export class SheetBase {
                         if (!cell) {
                             cell = new Cell(this);
                             cell.uid = cellUid;
-                            cell.data.value = '空数据'
+                            cell.data.value = 'Empty data'
                             this.cells.set(cell.uid, cell);
                         }
                         if (rowIndex === 0 && colIndex === 0) {
@@ -209,7 +209,7 @@ export class SheetBase {
                 });
             }
         } catch (e) {
-            console.error(`加载失败：${e}`);
+            console.error(`Load failed: ${e}`);
             return false;
         }
     }
@@ -228,20 +228,20 @@ export class SheetBase {
 
     findCellByPosition(rowIndex, colIndex) {
         if (rowIndex < 0 || colIndex < 0 || rowIndex >= this.hashSheet.length || colIndex >= this.hashSheet[0].length) {
-            console.warn('无效的行列索引');
+            console.warn('Invalid row or column index');
             return null;
         }
         const hash = this.hashSheet[rowIndex][colIndex]
         const target = this.cells.get(hash) || null;
         if (!target) {
             const cell = new Cell(this);
-            cell.data.value = '空数据';
+            cell.data.value = 'Empty data';
             cell.type = colIndex === 0 ? Cell.CellType.row_header : rowIndex === 0 ? Cell.CellType.column_header : Cell.CellType.cell;
             cell.uid = hash;
             this.cells.set(cell.uid, cell);
             return cell;
         }
-        console.log('找到单元格',target);
+        console.log('Found cell', target);
         return target;
     }
     /**
@@ -251,7 +251,7 @@ export class SheetBase {
      */
     getCellsByRowIndex(rowIndex) {
         if (rowIndex < 0 || rowIndex >= this.hashSheet.length) {
-            console.warn('无效的行索引');
+            console.warn('Invalid row index');
             return null;
         }
         return this.hashSheet[rowIndex].map(uid => this.cells.get(uid));
@@ -261,8 +261,8 @@ export class SheetBase {
      * @returns
      */
     getSheetCSV( removeHeader = true,key = 'value') {
-        if (this.isEmpty()) return '（此表格当前为空）\n'
-        console.log("测试获取map", this.cells)
+        if (this.isEmpty()) return '(the table is currently empty)\n'
+        console.log('Testing map retrieval', this.cells)
         const content = this.hashSheet.slice(removeHeader?1:0).map((row, index) => row.map(cellUid => {
             const cell = this.cells.get(cellUid)
             if (!cell) return ""
