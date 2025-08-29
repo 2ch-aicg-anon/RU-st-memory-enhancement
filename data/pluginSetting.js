@@ -154,55 +154,55 @@ export const defaultSettings = await switchLanguage('__defaultSettings__', {
     injection_mode: 'deep_system',
     // 注入深度
     deep: 2,
-    message_template: `# Описание dataTable
-  ## Назначение
-  - dataTable — это таблица в формате CSV, которая хранит данные и состояния и служит важной опорой при генерации последующего текста.
-  - Новый текст должен основываться на dataTable и при необходимости обновлять таблицу.
-  ## Данные и формат
-  - Здесь можно просмотреть все данные таблицы, связанные пояснения и условия, при которых требуется модификация.
-  - Формат имен:
-      - Имя таблицы: [tableIndex:Имя] (пример: [2:Таблица характеристик персонажа])
-      - Имя столбца: [colIndex:Имя] (пример: [2:Пример столбца])
-      - Имя строки: [rowIndex]
+    message_template: `# dataTable Description
+  ## Purpose
+  - dataTable is a CSV-format table that stores data and states and serves as an important reference for generating subsequent text.
+  - New text should be based on the dataTable and update the table when necessary.
+  ## Data and Format
+  - Here you can view all table data, related explanations, and the conditions that require modification.
+  - Naming format:
+      - Table name: [tableIndex:Name] (example: [2:Character Traits Table])
+      - Column name: [colIndex:Name] (example: [2:Sample Column])
+      - Row name: [rowIndex]
 
   {{tableData}}
 
-  # Методы добавления, удаления и изменения dataTable:
-  - После генерации основного текста необходимо проверить, требуется ли для каждой таблицы добавление, удаление или изменение согласно «условиям триггера». При необходимости используйте функции в теге <tableEdit> в синтаксисе JavaScript и следуйте правилам ниже.
+  # Methods for Adding, Deleting, and Modifying the dataTable:
+  - After generating the main text, check whether any table requires additions, deletions, or modifications according to the trigger conditions. If needed, use JavaScript functions inside the <tableEdit> tag and follow the rules below.
 
-  ## Правила операций (обязательны к соблюдению)
+  ## Operation Rules (must be followed)
   <OperateRule>
-  - Для вставки новой строки используйте функцию insertRow:
+  - To insert a new row, use the insertRow function:
   insertRow(tableIndex:number, data:{[colIndex:number]:string|number})
-  Пример: insertRow(0, {0: "2021-09-01", 1: "12:00", 2: "Балкон", 3: "Сяо Хуа"})
-  - Для удаления строки используйте функцию deleteRow:
+  Example: insertRow(0, {0: "2021-09-01", 1: "12:00", 2: "Balcony", 3: "Xiao Hua"})
+  - To delete a row, use the deleteRow function:
   deleteRow(tableIndex:number, rowIndex:number)
-  Пример: deleteRow(0, 0)
-  - Для обновления строки используйте функцию updateRow:
+  Example: deleteRow(0, 0)
+  - To update a row, use the updateRow function:
   updateRow(tableIndex:number, rowIndex:number, data:{[colIndex:number]:string|number})
-  Пример: updateRow(0, 0, {3: "Хуэйхуэй"})
+  Example: updateRow(0, 0, {3: "Huihui"})
   </OperateRule>
 
-  # Важные принципы (обязательны к соблюдению)
-  - Если <user> требует изменить таблицу, запрос <user> имеет наивысший приоритет.
-  - Каждый ответ должен выполнять операции добавления, удаления или изменения в соответствии с сюжетом и в правильном месте; запрещено придумывать информацию или заполнять неизвестное.
-  - При использовании функции insertRow предоставляйте данные для всех известных столбцов и проверяйте, содержит ли параметр data:{[colIndex:number]:string|number} все colIndex.
-  - В ячейках запрещены запятые; для разделения используйте /.
-  - В строках запрещены двойные кавычки.
-  - В социальной таблице (tableIndex: 2) запрещено указывать отношение к <user>. Пример (запрещён): insertRow(2, {"0":"<user>","1":"Неизвестно","2":"Нет","3":"Низкая"})
-  - Внутри тега <tableEdit> комментарии должны быть оформлены с помощью <!-- -->.
+  # Important Principles (must be followed)
+  - If <user> requests a table change, the <user>'s request has the highest priority.
+  - Each reply must add, delete, or modify data according to the story in the correct place; do not invent information or fill in unknown values.
+  - When using insertRow, provide data for all known columns and ensure that data:{[colIndex:number]:string|number} includes every colIndex.
+  - Commas are not allowed in cells; use / as the separator.
+  - Double quotes are not allowed in strings.
+  - The social table (tableIndex: 2) must not include attitudes toward <user>. Forbidden example: insertRow(2, {"0":"<user>","1":"Unknown","2":"None","3":"Low"})
+  - Comments inside the <tableEdit> tag must be enclosed with <!-- -->.
 
-  # Пример вывода:
+  # Output Example:
   <tableEdit>
   <!--
-  insertRow(0, {"0":"Октябрь","1":"Зима/Снег","2":"Школа","3":"<user>/Юю"})
+  insertRow(0, {"0":"October","1":"Winter/Snow","2":"School","3":"<user>/Yuyu"})
   deleteRow(1, 2)
-  insertRow(1, {0:"Юю", 1:"Вес 60кг/Длинные чёрные волосы", 2:"Открытая и энергичная", 3:"Студент", 4:"Бадминтон", 5:"Истребитель демонов", 6:"Общежитие", 7:"Капитан спортивного клуба"})
-  insertRow(1, {0:"<user>", 1:"Форма/Короткие волосы", 2:"Меланхоличная", 3:"Студент", 4:"Пение", 5:"Магическая битва", 6:"Собственный дом", 7:"Президент студсовета"})
-  insertRow(2, {0:"Юю", 1:"Одноклассник", 2:"Зависимость/Симпатия", 3:"Высокая"})
-  updateRow(4, 1, {0: "Сяо Хуа", 1: "Неудачная попытка разрушить признание", 2: "Октябрь", 3: "Школа",4:"Гнев"})
-  insertRow(4, {0: "<user>/Юю", 1: "Юю признаётся <user>", 2: "2021-10-05", 3: "Класс",4:"Трогательно"})
-  insertRow(5, {"0":"<user>","1":"Приз из клубного соревнования","2":"Кубок","3":"Первое место в соревновании"})
+  insertRow(1, {0:"Yuyu", 1:"Weight 60kg/Long black hair", 2:"Cheerful and lively", 3:"Student", 4:"Badminton", 5:"Demon Slayer", 6:"Dormitory", 7:"Head of the sports club"})
+  insertRow(1, {0:"<user>", 1:"Uniform/Short hair", 2:"Melancholic", 3:"Student", 4:"Singing", 5:"Jujutsu Kaisen", 6:"Own home", 7:"Student council president"})
+  insertRow(2, {0:"Yuyu", 1:"Classmate", 2:"Dependence/Affection", 3:"High"})
+  updateRow(4, 1, {0: "Xiao Hua", 1: "Failed attempt to ruin confession", 2: "October", 3: "School",4:"Anger"})
+  insertRow(4, {0: "<user>/Yuyu", 1: "Yuyu confesses to <user>", 2: "2021-10-05", 3: "Classroom",4:"Moved"})
+  insertRow(5, {"0":"<user>","1":"Club competition prize","2":"Trophy","3":"First place in the competition"})
   -->
   </tableEdit>
   `,
