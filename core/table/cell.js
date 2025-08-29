@@ -155,7 +155,7 @@ export class Cell {
      * @param callback
      */
     on(event, callback) {
-        if (typeof callback !== 'function') throw new Error('回调函数必须是一个函数');
+        if (typeof callback !== 'function') throw new Error('Callback must be a function');
         if (event === '') {
             if (!this.customEventListeners['']) {
                 this.customEventListeners[''] = []; // 初始化为数组
@@ -168,9 +168,9 @@ export class Cell {
             this.customEventListeners[event].push(callback);        // 监听特定的 CellAction 事件
         } else {
             try {
-                this.element.addEventListener(event, callback); // 监听原生 DOM 事件
+                this.element.addEventListener(event, callback); // Listen to native DOM event
             } catch (e) {
-                throw new Error(`无法监听事件: ${event}`);
+                throw new Error(`Unable to listen to event: ${event}`);
             }
         }
     }
@@ -193,7 +193,7 @@ export class Cell {
                 targetCell = this.parent.cells.get(targetUid);
             }
             if (!targetCell) {
-                throw new Error(`未找到单元格，UID: ${targetUid}`);
+                throw new Error(`Cell not found, UID: ${targetUid}`);
             }
         }
         this.uid = targetCell.uid || `cell_${this.parent.uid.split('_')[1]}_${SYSTEM.generateRandomString(16)}`;
@@ -241,7 +241,7 @@ export class Cell {
                 this.#clearSheet();
                 break;
             default:
-                console.warn(`未处理的单元格操作: ${actionName}`);
+                console.warn(`Unhandled cell operation: ${actionName}`);
         }
 
         // 触发自定义事件监听器
@@ -259,11 +259,11 @@ export class Cell {
             this.parent.save();
         }
 
-        console.log(`单元格操作: ${actionName} 位置: ${[rowIndex, colIndex]}`);
+        console.log(`Cell action: ${actionName} position: ${[rowIndex, colIndex]}`);
     }
     #handleEditCell(props = {}) {
         if (!props || Object.keys(props).length === 0) {
-            console.warn('未提供任何要修改的属性');
+            console.warn('No properties provided to modify');
             return;
         }
         let cell = new Cell(this.parent);
@@ -271,7 +271,7 @@ export class Cell {
         cell.data = { ...this.data, ...props };
         const [rowIndex, colIndex] = this.#positionInParentCellSheet()
         this.parent.cells.set(cell.uid, cell);
-        console.log("保存前的 cell", this.parent.cellHistory);
+        console.log('Cell before saving', this.parent.cellHistory);
         this.parent.cellHistory.push(cell);
         this.parent.hashSheet[rowIndex][colIndex] = cell.uid;
         this.parent.markPositionCacheDirty();
@@ -304,7 +304,7 @@ export class Cell {
         this.parent.markPositionCacheDirty();
     }
     #deleteRow(rowIndex) {
-        console.log("删除行", rowIndex, this.parent.hashSheet.length)
+        console.log('Delete row', rowIndex, this.parent.hashSheet.length)
         if (rowIndex === 0) return;
         if (this.parent.hashSheet.length < 2) return;
         this.parent.hashSheet.splice(rowIndex, 1);
@@ -320,6 +320,6 @@ export class Cell {
         this.parent.markPositionCacheDirty();
     }
     #clearSheet() {
-        throw new Error('未实现的方法');
+        throw new Error('Method not implemented');
     }
 }
