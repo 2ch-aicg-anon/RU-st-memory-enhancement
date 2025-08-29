@@ -61,7 +61,10 @@
     "Disable GPU table rendering": "Disable GPU table rendering",
     "Disable GPU table rendering description": "(Manually disable GPU rendering for tables)",
     "All table cell display mode": "Display mode of table cells in all positions",
-
+    "No wrapping": "No wrapping",
+    "Full width": "Full width",
+    "Half width": "Half width",
+    "Quarter width": "Quarter width",
 
     "appHeaderTableDrawer.html": "______________________________________________________________________________________________________________________________________________",
     "[title]Event table": "Event table",
