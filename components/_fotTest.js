@@ -41,7 +41,7 @@ function openTestSidebar() {
 
 async function testingProcess() {
     if (codeQueue.length === 0) {
-        console.log(`[${new Date().toLocaleTimeString()}] 没有注册任何 code，无法执行，请使用 SYSTEM.f(()=>{需要测试的代码}, '函数名') 注册测试代码。`);
+        console.log(`[${new Date().toLocaleTimeString()}] No code registered, cannot run. Use SYSTEM.f(()=>{code to test}, 'functionName') to register test code.`);
         return;
     }
 
@@ -106,7 +106,7 @@ function createToolBar() {
 
     const retryButton = createToolButton('<i class="fa-solid fa-repeat"></i>', async (event) => { // 使用 Font Awesome 图标, 并添加隐藏的文字
         event.stopPropagation();
-        if (confirm('将依次执行测试队列中注册的的代码，是否继续？')) {
+        if (confirm('Run all registered test code sequentially?')) {
             await reloadTestContent();
         } else {
 

@@ -113,10 +113,10 @@ async function createLoadingToast(isUseMainAPI = true, isSilent = false) {
     loadingToast = new PopupConfirm();
     return await loadingToast.show(
         isUseMainAPI
-            ? '正在使用【主API】重新生成完整表格...'
-            : '正在使用【自定义API】重新生成完整表格...',
-        '后台继续',
-        '中止执行',
+            ? 'Используется основной API для полной реконструкции таблицы...'
+            : 'Используется пользовательский API для полной реконструкции таблицы...',
+        'Продолжить в фоне',
+        'Прервать выполнение',
     )
 }
 
@@ -145,15 +145,15 @@ export async function handleMainAPIRequest(systemPrompt, userPrompt, isSilent = 
         if (loadingToast) {
             loadingToast.frameUpdate(() => {
                 if (loadingToast) {
-                    loadingToast.text = `正在使用【主API】(多消息)重新生成完整表格: ${((Date.now() - startTime) / 1000).toFixed(1)}秒`;
+                    loadingToast.text = `Основной API (несколько сообщений) полностью пересобирает таблицу: ${((Date.now() - startTime) / 1000).toFixed(1)}с`;
                 }
             });
         }
 
-        console.log('主API请求的多消息数组:', messages); // Log the actual array
+        console.log('Основной API - массив сообщений:', messages); // Log the actual array
         // Use TavernHelper.generateRaw with the array, enabling streaming
 
-        if(!TavernHelper) throw new Error("酒馆助手未安装，总结功能依赖于酒馆助手插件，请安装后刷新");
+        if(!TavernHelper) throw new Error("Tavern Helper не установлен, функция суммирования зависит от плагина Tavern Helper. Установите и обновите страницу");
 
         const response = await TavernHelper.generateRaw({
             ordered_prompts: messages, // Pass the array directly
@@ -177,7 +177,7 @@ export async function handleMainAPIRequest(systemPrompt, userPrompt, isSilent = 
         if (loadingToast) {
             loadingToast.frameUpdate(() => {
                 if (loadingToast) {
-                    loadingToast.text = `正在使用【主API】重新生成完整表格: ${((Date.now() - startTime) / 1000).toFixed(1)}秒`;
+                    loadingToast.text = `Основной API пересобирает таблицу: ${((Date.now() - startTime) / 1000).toFixed(1)}с`;
                 }
             });
         }

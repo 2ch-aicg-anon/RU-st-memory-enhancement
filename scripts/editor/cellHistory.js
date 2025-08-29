@@ -69,7 +69,7 @@ const histories = `
 </style>
 
 <div class="cell-history">
-    <h3>表格单元格历史记录</h3>
+    <h3>История ячеек таблицы</h3>
 <!--    <div class="history-tabs">-->
 <!--        &lt;!&ndash; 动态生成tabs &ndash;&gt;-->
 <!--    </div>-->
@@ -113,14 +113,14 @@ async function reloadCellHistory(cell, historyCell, container) {
         }
     </style>
     <div class="cell-history">
-        <h3>确认回溯单元格历史记录</h3>
+        <h3>Подтвердить откат истории ячейки</h3>
         <div class="cell-history-confirm">
             <textarea class="cell-history-confirm-last" readonly>${currentValue}</textarea>
-            <span>修改为:</span>
+            <span>Изменить на:</span>
             <textarea class="cell-history-confirm-value" rows="8">${targetValue}</textarea>
         </div>
     </div>
-    `, EDITOR.POPUP_TYPE.CONFIRM, '', { wide: true, allowVerticalScrolling: false, okButton: "继续", cancelButton: "取消" });
+    `, EDITOR.POPUP_TYPE.CONFIRM, '', { wide: true, allowVerticalScrolling: false, okButton: "Продолжить", cancelButton: "Отмена" });
 
     // 监听cell-history-confirm-value的输入事件
     const confirmValue = $(tracebackCellHistoryPopup.dlg).find('.cell-history-confirm-value');
@@ -161,7 +161,7 @@ function updateCellHistoryData(container, cell) {
 
     // 如果没有历史数据，显示提示
     if (!selfHistory || selfHistory.length === 0) {
-        sheetsContainer.append('<div class="history-empty">此单元格没有历史数据</div>');
+        sheetsContainer.append('<div class="history-empty">У этой ячейки нет истории</div>');
         return;
     }
 
