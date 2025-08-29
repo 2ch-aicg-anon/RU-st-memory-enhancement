@@ -29,7 +29,7 @@ class Form {
         const config = this.formConfig;
 
         if (!config) {
-            return `<div>未知的表单配置，无法生成编辑内容。</div>`;
+            return `<div>Unknown form configuration, unable to generate editing content.</div>`;
         }
 
         // 构建表单 HTML 字符串
@@ -166,7 +166,7 @@ class Form {
                                         });
                                     });
                                 } else {
-                                    popupMenu.add('没有可用的表格', () => {});
+                                    popupMenu.add('No available tables', () => {});
                                 }
                                 
                                 const rect = e.target.getBoundingClientRect();
