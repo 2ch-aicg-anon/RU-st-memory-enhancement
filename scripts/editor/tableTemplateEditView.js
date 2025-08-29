@@ -15,75 +15,75 @@ let scope = 'chat'
 
 const formConfigs = {
     sheet_origin: {
-        formTitle: "编辑表格",
-        formDescription: "单表格的整体设置。",
+        formTitle: "Редактировать таблицу",
+        formDescription: "Общие настройки таблицы.",
         fields: [
 
         ]
     },
     column_header: {
-        formTitle: "编辑列",
-        formDescription: "设置列的标题和描述信息。",
+        formTitle: "Редактировать столбец",
+        formDescription: "Настройка заголовка и описания столбца.",
         fields: [
-            { label: '列标题', type: 'text', dataKey: 'value' },
-            { label: '不允许值重复', type: 'checkbox', dataKey: 'valueIsOnly' },
+            { label: 'Заголовок столбца', type: 'text', dataKey: 'value' },
+            { label: 'Запретить повторения', type: 'checkbox', dataKey: 'valueIsOnly' },
             {
-                label: '数据类型', type: 'select', dataKey: 'columnDataType',
+                label: 'Тип данных', type: 'select', dataKey: 'columnDataType',
                 options: [
-                    { value: 'text', text: '文本' },
-                    // { value: 'number', text: '数字' },
-                    // { value: 'option', text: '选项' },
+                    { value: 'text', text: 'Текст' },
+                    // { value: 'number', text: 'Число' },
+                    // { value: 'option', text: 'Опция' },
                 ]
             },
-            //{ label: '列描述', description: '', type: 'textarea', rows: 4, dataKey: 'columnNote' },
+            //{ label: 'Описание столбца', description: '', type: 'textarea', rows: 4, dataKey: 'columnNote' },
         ],
     },
     row_header: {
-        formTitle: "编辑行",
-        formDescription: "设置行的标题和描述信息。",
+        formTitle: "Редактировать строку",
+        formDescription: "Настройка заголовка и описания строки.",
         fields: [
-            { label: '行标题', type: 'text', dataKey: 'value' },
-            //{ label: '行描述', description: '(给AI解释此行的作用)', type: 'textarea', rows: 4, dataKey: 'rowNote' },
+            { label: 'Заголовок строки', type: 'text', dataKey: 'value' },
+            //{ label: 'Описание строки', description: '(объяснить ИИ назначение строки)', type: 'textarea', rows: 4, dataKey: 'rowNote' },
         ],
     },
     cell: {
-        formTitle: "编辑单元格",
-        formDescription: "编辑单元格的具体内容。",
+        formTitle: "Редактировать ячейку",
+        formDescription: "Изменение содержимого ячейки.",
         fields: [
-            { label: '单元格内容', type: 'textarea', dataKey: 'value' },
-            //{ label: '单元格描述', description: '(给AI解释此单元格内容的作用)', type: 'textarea', rows: 4, dataKey: 'cellPrompt' },
+            { label: 'Содержимое ячейки', type: 'textarea', dataKey: 'value' },
+            //{ label: 'Описание ячейки', description: '(объяснить ИИ содержимое ячейки)', type: 'textarea', rows: 4, dataKey: 'cellPrompt' },
         ],
     },
     sheetConfig: {
-        formTitle: "编辑表格属性",
-        formDescription: "设置表格的域、类型和名称。",
+        formTitle: "Редактировать свойства таблицы",
+        formDescription: "Задайте область, тип и имя таблицы.",
         fields: [
             /* {
-                label: '默认保存位置', type: 'select', dataKey: 'domain',
+                label: 'Место сохранения по умолчанию', type: 'select', dataKey: 'domain',
                 options: [
-                    // { value: 'global', text: `<i class="fa-solid fa-earth-asia"></i> Global（该模板储存于用户数据中）` },
-                    // { value: 'role', text: `<i class="fa-solid fa-user-tag"></i> Role（该模板储存于当前所选角色）` },
-                    { value: 'chat', text: `<i class="fa-solid fa-comment"></i> Chat（该模板储存于当前对话）` },
+                    // { value: 'global', text: `<i class="fa-solid fa-earth-asia"></i> Global (шаблон хранится в данных пользователя)` },
+                    // { value: 'role', text: `<i class="fa-solid fa-user-tag"></i> Role (шаблон хранится у выбранного персонажа)` },
+                    { value: 'chat', text: `<i class="fa-solid fa-comment"></i> Chat (шаблон хранится в текущем диалоге)` },
                 ],
             }, */
             {
-                label: '类型', type: 'select', dataKey: 'type',
+                label: 'Тип', type: 'select', dataKey: 'type',
                 options: [
-                    // { value: 'free', text: `<i class="fa-solid fa-table"></i> Free（AI 可以任意修改此表格）` },
-                    { value: 'dynamic', text: `<i class="fa-solid fa-arrow-down-wide-short"></i> Dynamic（AI 可进行插入列外的所有操作）` },
-                    // { value: 'fixed', text: `<i class="fa-solid fa-thumbtack"></i> Fixed（AI 无法删除或插入行与列）` },
-                    // { value: 'static', text: `<i class="fa-solid fa-link"></i> Static（该表对 AI 为只读）` }
+                    // { value: 'free', text: `<i class="fa-solid fa-table"></i> Free (AI может свободно изменять таблицу)` },
+                    { value: 'dynamic', text: `<i class="fa-solid fa-arrow-down-wide-short"></i> Dynamic (AI может выполнять все операции кроме вставки столбцов)` },
+                    // { value: 'fixed', text: `<i class="fa-solid fa-thumbtack"></i> Fixed (AI не может удалять или вставлять строки и столбцы)` },
+                    // { value: 'static', text: `<i class="fa-solid fa-link"></i> Static (таблица доступна ИИ только для чтения)` }
                 ],
             },
-            { label: '表格名', type: 'text', dataKey: 'name' },
-            { label: '表格说明（提示词）', type: 'textarea', rows: 6, dataKey: 'note', description: '(作为该表总体提示词，给AI解释此表格的作用)' },
-            { label: '是否必填', type: 'checkbox', dataKey: 'required' },
-            { label: '是否触发发送', type: 'checkbox', dataKey: 'triggerSend', },
-            { label: '触发发送深度', type: 'number', dataKey: 'triggerSendDeep' },
-            { label: '初始化提示词', type: 'textarea', rows: 4, dataKey: 'initNode', description: '（当该表格为必填，且表格为空时，会发送此提示词催促AI填表）' },
-            { label: '插入提示词', type: 'textarea', rows: 4, dataKey: 'insertNode', description: '' },
-            { label: '删除提示词', type: 'textarea', rows: 4, dataKey: 'deleteNode', description: '' },
-            { label: '更新提示词', type: 'textarea', rows: 4, dataKey: 'updateNode', description: '' },
+            { label: 'Название таблицы', type: 'text', dataKey: 'name' },
+            { label: 'Описание таблицы (подсказка)', type: 'textarea', rows: 6, dataKey: 'note', description: '(Общая подсказка, объясняющая назначение таблицы)' },
+            { label: 'Обязательное поле', type: 'checkbox', dataKey: 'required' },
+            { label: 'Отправлять автоматически', type: 'checkbox', dataKey: 'triggerSend', },
+            { label: 'Глубина отправки', type: 'number', dataKey: 'triggerSendDeep' },
+            { label: 'Начальная подсказка', type: 'textarea', rows: 4, dataKey: 'initNode', description: '(Если таблица обязательная и пуста, будет отправлена эта подсказка)' },
+            { label: 'Подсказка вставки', type: 'textarea', rows: 4, dataKey: 'insertNode', description: '' },
+            { label: 'Подсказка удаления', type: 'textarea', rows: 4, dataKey: 'deleteNode', description: '' },
+            { label: 'Подсказка обновления', type: 'textarea', rows: 4, dataKey: 'updateNode', description: '' },
         ],
     },
 };
@@ -91,7 +91,7 @@ const formConfigs = {
 
 async function updateDropdownElement() {
     const templates = getSheets();
-    // console.log("下滑模板", templates)
+    // console.log("dropdown templates", templates)
     if (dropdownElement === null) {
         dropdownElement = document.createElement('select');
         dropdownElement.id = 'table_template';
@@ -130,7 +130,7 @@ function initChatScopeSelectedSheets() {
 function updateSelectedSheetUids() {
     if (scope === 'chat') {
         USER.saveChat()
-        console.log("这里触发的")
+        console.log("Здесь сработало")
         BASE.refreshContextView()
     }
     else USER.saveSettings();
@@ -162,13 +162,13 @@ function initializeSelect2Dropdown(dropdownElement) {
 
     $(dropdownElement).on('change', function (e, silent) {
         //if(silent || scope === 'chat') return
-        console.log("选择了",silent,$(this).val())
+        console.log("Выбрано", silent, $(this).val())
         if (silent) return
         setSelectedSheetUids($(this).val())
         updateSelectedSheetUids()
     });
 
-    // 创建父级复选框与下拉框的关联
+    // Создать связь между родительским чекбоксом и выпадающим списком
     const firstOptionText = $(dropdownElement).find('option:first-child').text();
     const tableMultipleSelectionDropdown = $('<span class="select2-option" style="width: 100%"></span>');
     const checkboxForParent = $('<input type="checkbox" class="select2-option-checkbox"/>');
@@ -212,8 +212,8 @@ function bindSheetSetting(sheet, index) {
     titleBar.style.fontSize = '0.8rem';
     titleBar.style.fontWeight = 'normal';
 
-    // 表格基础设置按钮
-    const settingButton = $(`<i class="menu_button menu_button_icon fa-solid fa-wrench" style="cursor: pointer; height: 28px; width: 28px;" title="编辑表格属性"></i>`);
+    // Кнопка настроек таблицы
+    const settingButton = $(`<i class="menu_button menu_button_icon fa-solid fa-wrench" style="cursor: pointer; height: 28px; width: 28px;" title="Редактировать свойства таблицы"></i>`);
     settingButton.on('click', async () => {
         const initialData = {
             domain: sheet.domain,
@@ -229,24 +229,24 @@ function bindSheetSetting(sheet, index) {
             triggerSendDeep: sheet.triggerSendDeep
         };
         const formInstance = new Form(formConfigs.sheetConfig, initialData);
-        const popup = new EDITOR.Popup(formInstance.renderForm(), EDITOR.POPUP_TYPE.CONFIRM, '', { okButton: "保存", allowVerticalScrolling: true, cancelButton: "取消" });
+        const popup = new EDITOR.Popup(formInstance.renderForm(), EDITOR.POPUP_TYPE.CONFIRM, '', { okButton: "Сохранить", allowVerticalScrolling: true, cancelButton: "Отмена" });
 
         await popup.show();
         if (popup.result) {
             const diffData = compareDataDiff(formInstance.result(), initialData)
             console.log(diffData)
             let needRerender = false
-            // 将比较数据差异的结果更新至表格
+            // Обновить таблицу результатами сравнения данных
             Object.keys(diffData).forEach(key => {
                 console.log(key)
                 if (['domain', 'type', 'name', 'required', 'triggerSend'].includes(key) && diffData[key] != null) {
-                    console.log("对比成功将更新" + key)
+                    console.log("Успешное сравнение, обновление " + key)
                     sheet[key] = diffData[key];
                     if (key === 'name') needRerender = true
                 } else if (['note', 'initNode', 'insertNode', 'deleteNode', 'updateNode'].includes(key) && diffData[key] != null) {
                     sheet.data[key] = diffData[key];
                 } else if (['triggerSendDeep'].includes(key) && diffData[key] != null) {
-                    console.log("对比成功将更新" + key)
+                    console.log("Успешное сравнение, обновление " + key)
                     sheet[key] = Math.max(0, Math.floor(diffData[key]));
                 }
             })
@@ -255,25 +255,25 @@ function bindSheetSetting(sheet, index) {
         }
     });
 
-    // 表格自定义样式按钮
-    const styleButton = $(`<i class="menu_button menu_button_icon fa-solid fa-wand-magic-sparkles" style="cursor: pointer; height: 28px; width: 28px;" title="编辑表格显示样式"></i>`);
+    // Кнопка пользовательского стиля таблицы
+    const styleButton = $(`<i class="menu_button menu_button_icon fa-solid fa-wand-magic-sparkles" style="cursor: pointer; height: 28px; width: 28px;" title="Редактировать стиль отображения таблицы"></i>`);
     styleButton.on('click', async () => {
         await openSheetStyleRendererPopup(sheet);
     })
     const nameSpan = $(`<span style="margin-left: 0px;">#${index} ${sheet.name ? sheet.name : 'Unnamed Table'}</span>`);
 
-    // 新增：发送到上下文的复选框
+    // Добавлено: чекбокс отправки в контекст
     const sendToContextCheckbox = $(`
         <label class="checkbox_label" style="margin-left: 10px; font-weight: normal; color: var(--text_primary);">
             <input type="checkbox" class="send_to_context_switch" ${sheet.sendToContext !== false ? 'checked' : ''} />
-            <span data-i18n="Send to context">发送到上下文</span>
+            <span data-i18n="Send to context">Отправить в контекст</span>
         </label>
     `);
 
     sendToContextCheckbox.find('.send_to_context_switch').on('change', function() {
         sheet.sendToContext = $(this).prop('checked');
         sheet.save();
-        console.log(`表格 "${sheet.name}" 的 sendToContext 状态已更新为: ${sheet.sendToContext}`);
+        console.log(`Статус sendToContext таблицы "${sheet.name}" обновлён: ${sheet.sendToContext}`);
     });
 
     titleBar.appendChild(settingButton[0]);
@@ -290,11 +290,11 @@ async function templateCellDataEdit(cell) {
     const formInstance = new Form(formConfigs[cell.type], initialData);
 
     formInstance.on('editRenderStyleEvent', (formData) => {
-        alert('编辑表格样式功能待实现' + JSON.stringify(formData));
+        alert('Функция редактирования стиля таблицы ещё не реализована' + JSON.stringify(formData));
     });
 
 
-    const popup = new EDITOR.Popup(formInstance.renderForm(), EDITOR.POPUP_TYPE.CONFIRM, { large: true, allowVerticalScrolling: true }, { okButton: "保存修改", cancelButton: "取消" });
+    const popup = new EDITOR.Popup(formInstance.renderForm(), EDITOR.POPUP_TYPE.CONFIRM, { large: true, allowVerticalScrolling: true }, { okButton: "Сохранить изменения", cancelButton: "Отмена" });
 
     await popup.show();
     if (popup.result) {
@@ -313,11 +313,11 @@ async function templateCellDataEdit(cell) {
 }
 
 function handleAction(cell, action) {
-    console.log("开始执行操作")
+    console.log("Начать выполнение действия")
     cell.newAction(action)
-    console.log("执行操作然后刷新")
+    console.log("Выполнить действие и обновить")
     refreshTempView();
-    // 如果是chat域，则刷新表格
+    // Если область chat, обновить таблицу
     if (scope === 'chat') BASE.refreshContextView()
 }
 
@@ -335,37 +335,37 @@ function bindCellClickEvent(cell) {
         const sheetType = cell.parent.type;
 
         if (rowIndex === 0 && colIndex === 0) {
-            cell.parent.currentPopupMenu.add('<i class="fa fa-arrow-right"></i> 向右插入列', (e) => { handleAction(cell, Cell.CellAction.insertRightColumn) });
+            cell.parent.currentPopupMenu.add('<i class="fa fa-arrow-right"></i> Вставить столбец справа', (e) => { handleAction(cell, Cell.CellAction.insertRightColumn) });
             if (sheetType === SheetBase.SheetType.free || sheetType === SheetBase.SheetType.static) {
-                cell.parent.currentPopupMenu.add('<i class="fa fa-arrow-down"></i> 向下插入行', (e) => { handleAction(cell, Cell.CellAction.insertDownRow) });
+                cell.parent.currentPopupMenu.add('<i class="fa fa-arrow-down"></i> Вставить строку ниже', (e) => { handleAction(cell, Cell.CellAction.insertDownRow) });
             }
         } else if (rowIndex === 0) {
-            cell.parent.currentPopupMenu.add('<i class="fa fa-i-cursor"></i> 编辑该列', async (e) => { await templateCellDataEdit(cell) });
-            cell.parent.currentPopupMenu.add('<i class="fa fa-arrow-left"></i> 向左插入列', (e) => { handleAction(cell, Cell.CellAction.insertLeftColumn) });
-            cell.parent.currentPopupMenu.add('<i class="fa fa-arrow-right"></i> 向右插入列', (e) => { handleAction(cell, Cell.CellAction.insertRightColumn) });
-            cell.parent.currentPopupMenu.add('<i class="fa fa-trash-alt"></i> 删除列', (e) => { handleAction(cell, Cell.CellAction.deleteSelfColumn) });
+            cell.parent.currentPopupMenu.add('<i class="fa fa-i-cursor"></i> Редактировать столбец', async (e) => { await templateCellDataEdit(cell) });
+            cell.parent.currentPopupMenu.add('<i class="fa fa-arrow-left"></i> Вставить столбец слева', (e) => { handleAction(cell, Cell.CellAction.insertLeftColumn) });
+            cell.parent.currentPopupMenu.add('<i class="fa fa-arrow-right"></i> Вставить столбец справа', (e) => { handleAction(cell, Cell.CellAction.insertRightColumn) });
+            cell.parent.currentPopupMenu.add('<i class="fa fa-trash-alt"></i> Удалить столбец', (e) => { handleAction(cell, Cell.CellAction.deleteSelfColumn) });
         } else if (colIndex === 0) {
             // if (sheetType === cell.parent.SheetType.dynamic) {
             //     cell.element.delete();
             //     return;
             // }
 
-            cell.parent.currentPopupMenu.add('<i class="fa fa-i-cursor"></i> 编辑该行', async (e) => { await templateCellDataEdit(cell) });
+            cell.parent.currentPopupMenu.add('<i class="fa fa-i-cursor"></i> Редактировать строку', async (e) => { await templateCellDataEdit(cell) });
             if (sheetType === SheetBase.SheetType.free || sheetType === SheetBase.SheetType.static) {
-                cell.parent.currentPopupMenu.add('<i class="fa fa-arrow-up"></i> 向上插入行', (e) => { handleAction(cell, Cell.CellAction.insertUpRow) });
-                cell.parent.currentPopupMenu.add('<i class="fa fa-arrow-down"></i> 向下插入行', (e) => { handleAction(cell, Cell.CellAction.insertDownRow) });
-                cell.parent.currentPopupMenu.add('<i class="fa fa-trash-alt"></i> 删除行', (e) => { handleAction(cell, Cell.CellAction.deleteSelfRow) });
+                cell.parent.currentPopupMenu.add('<i class="fa fa-arrow-up"></i> Вставить строку выше', (e) => { handleAction(cell, Cell.CellAction.insertUpRow) });
+                cell.parent.currentPopupMenu.add('<i class="fa fa-arrow-down"></i> Вставить строку ниже', (e) => { handleAction(cell, Cell.CellAction.insertDownRow) });
+                cell.parent.currentPopupMenu.add('<i class="fa fa-trash-alt"></i> Удалить строку', (e) => { handleAction(cell, Cell.CellAction.deleteSelfRow) });
             }
         } else {
             if (sheetType === SheetBase.SheetType.static) {
-                cell.parent.currentPopupMenu.add('<i class="fa fa-i-cursor"></i> 编辑该单元格', async (e) => { await templateCellDataEdit(cell) });
+                cell.parent.currentPopupMenu.add('<i class="fa fa-i-cursor"></i> Редактировать ячейку', async (e) => { await templateCellDataEdit(cell) });
             } else {
                 return;
             }
         }
 
         const element = event.target
-        // 备份当前cell的style，以便在菜单关闭时恢复
+        // Сохранить текущий стиль ячейки, чтобы восстановить после закрытия меню
         const style = element.style.cssText;
         const rect = element.getBoundingClientRect();
         const dragSpaceRect = drag.dragSpace.getBoundingClientRect();
@@ -418,21 +418,21 @@ async function updateDragTables() {
     }
 
     container.empty();
-    console.log("dragSpace是什么", drag.dragSpace)
+    console.log("Что такое dragSpace", drag.dragSpace)
 
     selectedSheetUids.forEach((uid, index) => {
 
         let sheetDataExists;
         if (scope === 'chat') {
-            // 检查 uid 是否存在于 BASE.sheetsData.context
+            // Проверка существования uid в BASE.sheetsData.context
             sheetDataExists = BASE.sheetsData.context?.some(sheetData => sheetData.uid === uid);
         } else {
-            // 检查 uid 是否存在于 BASE.templates
+            // Проверка существования uid в BASE.templates
             sheetDataExists = BASE.templates?.some(templateData => templateData.uid === uid);
         }
-        // 如果数据不存在，则记录警告并跳过此 uid
+        // Если данные отсутствуют, выводим предупреждение и пропускаем uid
         if (!sheetDataExists) {
-            console.warn(`在 updateDragTables 中未找到 UID 为 ${uid} 的表格数据 (scope: ${scope})。跳过此表格。`);
+            console.warn(`Не найдено таблицы с UID ${uid} в updateDragTables (scope: ${scope}). Пропуск.`);
             return;
         }
 
@@ -442,7 +442,7 @@ async function updateDragTables() {
         sheet.currentPopupMenu = currentPopupMenu;
 
         // if (!sheet || !sheet.hashSheet) {
-        //     console.warn(`无法加载模板或模板数据为空，UID: ${uid}`);
+        //     console.warn(`Невозможно загрузить шаблон или данные пусты, UID: ${uid}`);
         //     return
         // }
 
@@ -451,7 +451,7 @@ async function updateDragTables() {
         renderedTables.set(uid, tableElement);
         container.append(tableElement);
 
-        // 在添加表格后，添加 hr 元素
+        // Добавить hr после таблицы
         const hr = document.createElement('hr');
         tableElement.appendChild(hr);
 
@@ -472,7 +472,7 @@ export function updateTableContainerPosition() {
     // console.log("contentContainer", contentContainer)
     const sendFormHeight = document.querySelector('#send_form')?.getBoundingClientRect().height || 0;
     const rect = contentContainer.getBoundingClientRect();
-    // console.log("contentContainer 位置变化", rect, windowHeight, sendFormHeight)
+    // console.log("Изменение позиции contentContainer", rect, windowHeight, sendFormHeight)
     contentContainer.style.position = 'flex';
     contentContainer.style.bottom = '0';
     contentContainer.style.left = '0';
@@ -482,7 +482,7 @@ export function updateTableContainerPosition() {
 
 export async function refreshTempView(ignoreGlobal = false) {
     if (ignoreGlobal && scope === 'global') return
-    console.log("刷新表格模板视图")
+    console.log("Обновление представления шаблона таблицы")
     await updateDropdownElement()
     initializeSelect2Dropdown(dropdownElement);
     await updateDragTables();
@@ -505,18 +505,18 @@ async function initTableEdit(mesId) {
     contentContainer.append(draggable);
     drag.add('tableContainer', tableContainer);
 
-    // 添加事件监听器
+    // Добавить обработчики событий
     contentContainer.addEventListener('mouseenter', updateTableContainerPosition);
     contentContainer.addEventListener('focus', updateTableContainerPosition);
 
     $(scopeSelect).val(scope).on('change', async function () {
         scope = $(this).val();
-        console.log("切换到", scope)
+        console.log("Переключено на", scope)
         await refreshTempView()
     })
 
     $(document).on('click', '#add_table_template_button', async function () {
-        console.log("触发")
+        console.log("Сработало")
         let newTemplateUid = null
         let newTemplate = null
         if (scope === 'chat') {
@@ -534,7 +534,7 @@ async function initTableEdit(mesId) {
         else USER.saveSettings();
         await updateDropdownElement();
         //updateDragTables();
-        console.log("测试", [...currentSelectedValues, newTemplateUid])
+        console.log("Тест", [...currentSelectedValues, newTemplateUid])
         $(dropdownElement).val([...currentSelectedValues, newTemplateUid]).trigger("change", [true]);
         updateSelectedSheetUids()
     });
@@ -566,9 +566,9 @@ async function initTableEdit(mesId) {
 }
 
 export async function getEditView(mesId = -1) {
-    // 如果已经初始化过，直接返回缓存的容器，避免重复创建
+    // Если уже инициализировано, возвращаем кешированный контейнер, избегая повторного создания
     if (table_editor_container) {
-        // 更新下拉菜单和表格，但不重新创建整个容器
+        // Обновить выпадающее меню и таблицы без пересоздания контейнера
         await refreshTempView(false);
         return table_editor_container;
     }

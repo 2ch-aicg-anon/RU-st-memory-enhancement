@@ -16,7 +16,7 @@ import { SYSTEM, USER} from "../core/manager.js";
 
 export async function rollbackVersion() {
     // 弹出确认
-    if (confirm("初始化2.0表格数据？该操作无法回退！（将销毁当前对话的所有新表数据，清空所有新表格模板，用于模拟回退上一版本，该功能仅用于调试。）")) {
+    if (confirm("Инициализировать данные таблицы 2.0? Это действие необратимо (удалит все новые данные таблиц и шаблоны для текущего диалога, используется только для отладки).")) {
         USER.tableBaseSetting.updateIndex = 3
         delete USER.getSettings().table_database_templates
         delete USER.getContext().chatMetadata.sheets
@@ -32,17 +32,17 @@ export async function rollbackVersion() {
 
         USER.saveSettings()
         USER.saveChat();
-        console.log("已清除表格数据: ", USER.getSettings(), USER.getContext().chatMetadata, USER.getChatPiece())
+        console.log("Данные таблиц очищены: ", USER.getSettings(), USER.getContext().chatMetadata, USER.getChatPiece())
         return true
     } else {
-        console.log("用户取消了清除操作")
+        console.log("Пользователь отменил очистку")
         return false
     }
 }
 
 /**______________________请注意不要把填写后的API密钥上传了______________________*/
 export function functionToBeRegistered() {
-    SYSTEM.f(rollbackVersion, "回退上一版本")
+    SYSTEM.f(rollbackVersion, "Откатить до предыдущей версии")
     // SYSTEM.f(()=>{
     //     let sourceData = {}
     //     const s = BASE.sheetsData.context
