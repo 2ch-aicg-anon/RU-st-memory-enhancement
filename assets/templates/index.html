@@ -14,7 +14,7 @@
                         <div style=" display: flex; flex-direction: row; gap: 10px;">
                             <div class="menu_button_icon menu_button interactable">
                                 <i class="fa-brands fa-github fa-lg"></i>
-                                <a href="https://github.com/muyoou/RU-st-memory-enhancement/"
+                                <a href="https://github.com/2ch-aicg-anon/RU-st-memory-enhancement/"
                                     data-i18n="Project link">项目地址</a>
                             </div>
                             <div class="menu_button_icon menu_button interactable">
@@ -23,7 +23,7 @@
                             </div>
                             <div class="menu_button_icon menu_button interactable">
                                 <i class="fa-solid fa-list"></i>
-                                <a href="https://github.com/muyoou/RU-st-memory-enhancement/releases"
+                                <a href="https://github.com/2ch-aicg-anon/RU-st-memory-enhancement/releases"
                                     data-i18n="Changelog">更新日志</a>
                             </div>
                         </div>
@@ -107,8 +107,8 @@
                                 <h4 class="standoutHeader" data-i18n="Run strategy">运行策略</h4>
                                 <label for="fill_table_time" data-i18n="Render to">填表行为发生在：</label>
                                 <select id="fill_table_time" class="flex1" style="min-width: 100px">
-                                    <option value="chat">聊天的同时填表</option>
-                                    <option value="after">收到消息后再单独填表</option>
+                                    <option value="chat" data-i18n="Fill table during chat">聊天的同时填表</option>
+                                    <option value="after" data-i18n="Fill table after message">收到消息后再单独填表</option>
                                 </select>
 
 
@@ -134,12 +134,12 @@
                                             style="margin-left: 10px;">
                                             <i class="fa-solid fa-play"></i><a data-i18n="Fill now">立即填表</a>
                                         </div>
-                                        <label for="separateReadContextLayers" style="margin-left: 10px;">上下文层数</label>
+                                        <label for="separateReadContextLayers" style="margin-left: 10px;" data-i18n="Context layers">上下文层数</label>
                                         <input type="number" id="separateReadContextLayers" class="margin0 text_pole"
                                             style="width: 50px;" min="1" value="1" />
-                                        <label for="separateReadLorebook" style="margin-left: 10px;">读取世界书</label>
+                                        <label for="separateReadLorebook" style="margin-left: 10px;" data-i18n="Read lorebook">读取世界书</label>
                                         <input type="checkbox" id="separateReadLorebook" class="margin0" />
-                                        <small class="toggle-description justifyLeft">(不建议大Token卡使用)</small>
+                                        <small class="toggle-description justifyLeft" data-i18n="Not recommended for large tokens">(不建议大Token卡使用)</small>
                                     </div>
                                     <div style="padding-left: 5px; margin-bottom: 10px;">
                                         <div style="display: flex; align-items: center; gap: 10px;">
@@ -153,7 +153,8 @@
                                             data-i18n="settings.hint.stepByStepUserPrompt">(独立填表时，请求将以此结构发送，请保持可被json解析)</small>
                                         <textarea id="step_by_step_user_prompt"
                                             class="text_pole settings_textarea wide100p" rows="8"
-                                            placeholder="输入独立填表提示词"></textarea>
+                                            placeholder="输入独立填表提示词"
+                                            data-i18n="[placeholder]Enter independent fill prompt"></textarea>
                                     </div>
                                     <div class="checkbox_label range-block justifyLeft">
                                         <input type="checkbox" id="confirm_before_execution" checked><span
@@ -171,21 +172,24 @@
                                             style="display: none; padding-left: 20px; width: calc(100% - 20px)">
                                             <!-- 自定义API设置 -->
                                             <input type="text" id="custom_api_url" class="text_pole"
-                                                placeholder="API URL（请以/v1结尾）">
+                                                placeholder="API URL（请以/v1结尾）"
+                                                data-i18n="[placeholder]API URL (must end with /v1)">
                                             <input type="password" id="custom_api_key" class="text_pole"
-                                                placeholder="API Key(多个key用逗号隔开)">
+                                                placeholder="API Key(多个key用逗号隔开)"
+                                                data-i18n="[placeholder]API Key (comma-separated)">
                                             <input type="text" id="custom_model_name" class="text_pole"
-                                                placeholder="Model Name（模型名称，可手动输入或自动获取）">
+                                                placeholder="Model Name（模型名称，可手动输入或自动获取）"
+                                                data-i18n="[placeholder]Model Name (enter manually or auto-fetch)">
                                             <div class="range-block justifyLeft">
                                                 <select id="model_selector" class="text_pole">
-                                                    <option value="">请先获取模型列表</option>
+                                                    <option value="" data-i18n="Please fetch model list first">请先获取模型列表</option>
                                                 </select>
                                                 <div class="menu_button menu_button_icon" id="fetch_models_button">
-                                                    <a>获取模型列表</a>
+                                                    <a data-i18n="Fetch model list">获取模型列表</a>
                                                 </div>
                                                 <div class="menu_button menu_button_icon" id="table_test_api_button"
                                                     style="margin-left: 5px;">
-                                                    <a>测试</a>
+                                                    <a data-i18n="Test">测试</a>
                                                 </div>
                                             </div>
                                             <div class="flex-container slider-container"
@@ -259,20 +263,20 @@
                                     </div>
 
                                     <div class="flex-container" style="flex-wrap: nowrap; padding-top: 10px;">
-                                        <b style="width: 170px;">总结模板</b>
+                                        <b style="width: 170px;" data-i18n="Summary templates">总结模板</b>
                                         <select id="rebuild--select">
                                         </select>
                                         <div class="rebuild--add menu_button menu_button_icon fa-solid fa-pencil"
-                                            id="rebuild--set-rename" title="编辑总结模板"></div>
+                                            id="rebuild--set-rename" title="编辑总结模板" data-i18n="[title]Edit summary template"></div>
                                         <div class="rebuild--add menu_button menu_button_icon fa-solid fa-plus"
-                                            id="rebuild--set-new" title="创建总结模板"></div>
+                                            id="rebuild--set-new" title="创建总结模板" data-i18n="[title]Create summary template"></div>
                                         <div class="rebuild--add menu_button menu_button_icon fa-solid fa-file-import"
-                                            id="rebuild--set-import" title="导入总结模板"></div>
+                                            id="rebuild--set-import" title="导入总结模板" data-i18n="[title]Import summary template"></div>
                                         <input type="file" id="rebuild--set-importFile" accept=".json" hidden>
                                         <div class="rebuild--add menu_button menu_button_icon fa-solid fa-file-export"
-                                            id="rebuild--set-export" title="导出总结模板"></div>
+                                            id="rebuild--set-export" title="导出总结模板" data-i18n="[title]Export summary template"></div>
                                         <div class="rebuild--del menu_button menu_button_icon fa-solid fa-trash redWarningBG"
-                                            id="rebuild--set-delete" title="删除此模板"></div>
+                                            id="rebuild--set-delete" title="删除此模板" data-i18n="[title]Delete this template"></div>
                                     </div>
 
                                     <div style="display: flex; width: calc(100% - 20px);">

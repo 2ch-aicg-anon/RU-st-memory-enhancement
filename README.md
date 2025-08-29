@@ -13,14 +13,14 @@
 </p>
 
 <p>
-    <a href="https://github.com/muyoou/RU-st-memory-enhancement/stargazers">
-        <img src="https://img.shields.io/github/stars/muyoou/RU-st-memory-enhancement?style=flat-square" alt="GitHub Stars">
+    <a href="https://github.com/2ch-aicg-anon/RU-st-memory-enhancement/stargazers">
+        <img src="https://img.shields.io/github/stars/2ch-aicg-anon/RU-st-memory-enhancement?style=flat-square" alt="GitHub Stars">
     </a>
-    <a href="https://github.com/muyoou/RU-st-memory-enhancement/graphs/contributors">
-        <img src="https://img.shields.io/github/contributors/muyoou/RU-st-memory-enhancement?style=flat-square" alt="Contributors">
+    <a href="https://github.com/2ch-aicg-anon/RU-st-memory-enhancement/graphs/contributors">
+        <img src="https://img.shields.io/github/contributors/2ch-aicg-anon/RU-st-memory-enhancement?style=flat-square" alt="Contributors">
     </a>
-    <a href="https://github.com/muyoou/RU-st-memory-enhancement/issues">
-        <img src="https://img.shields.io/github/issues/muyoou/RU-st-memory-enhancement?style=flat-square" alt="GitHub Issues">
+    <a href="https://github.com/2ch-aicg-anon/RU-st-memory-enhancement/issues">
+        <img src="https://img.shields.io/github/issues/2ch-aicg-anon/RU-st-memory-enhancement?style=flat-square" alt="GitHub Issues">
     </a>
     <a href="https://qm.qq.com/q/bBSIrwKty2">
       <img src="https://img.shields.io/badge/Join-QQ_Group-ff69b4">
@@ -75,17 +75,17 @@
        <img src="https://github.com/user-attachments/assets/67904e14-dc8d-4d7c-a1a8-d24253b72621" alt="安装插件步骤 1" style="max-width:70%; border-radius: 5px;">
    </p>
 
-2. **输入插件地址：** 在弹出的窗口中，输入插件的 GitHub 地址 `https://github.com/muyoou/RU-st-memory-enhancement` ，然后选择 `Install for all users`
+2. **输入插件地址：** 在弹出的窗口中，输入插件的 GitHub 地址 `https://github.com/2ch-aicg-anon/RU-st-memory-enhancement` ，然后选择 `Install for all users`
 
    <p align="center">
        <img src="https://github.com/user-attachments/assets/9f39015f-63bb-4741-bb7f-740c02f1de17" alt="安装插件步骤 2" style="max-width:70%; border-radius: 5px;">
    </p>
 
-   **国内用户加速：**  如遇网络问题，可尝试国内 Gitee 源地址：`https://gitee.com/muyoou/RU-st-memory-enhancement`
+   **国内用户加速：**  如遇网络问题，可尝试国内 Gitee 源地址：`https://gitee.com/2ch-aicg-anon/RU-st-memory-enhancement`
 
 ## 💖 支持与交流
 
-**🤝 参与贡献：**  欢迎参与插件开发！请查阅 <a href="https://github.com/muyoou/RU-st-memory-enhancement/blob/dev/README.md">贡献指南</a>，了解如何贡献代码和想法。
+**🤝 参与贡献：**  欢迎参与插件开发！请查阅 <a href="https://github.com/2ch-aicg-anon/RU-st-memory-enhancement/blob/dev/README.md">贡献指南</a>，了解如何贡献代码和想法。
 
 **💬 社群交流：**  加入插件交流 & BUG 反馈 QQ 群：<a href="#">**1030109849**</a>，与更多用户交流心得，解决问题。
 
@@ -94,8 +94,8 @@
 感谢所有为本项目做出贡献的朋友们！
 
 <p align="center">
-    <a href="https://github.com/muyoou/RU-st-memory-enhancement/graphs/contributors">
-      <img src="https://contrib.rocks/image?repo=muyoou/RU-st-memory-enhancement" style="max-width: 400px;" />
+    <a href="https://github.com/2ch-aicg-anon/RU-st-memory-enhancement/graphs/contributors">
+      <img src="https://contrib.rocks/image?repo=2ch-aicg-anon/RU-st-memory-enhancement" style="max-width: 400px;" />
     </a>
 </p>
 
