@@ -43,7 +43,7 @@ function updateTableView() {
         $(extensionsMenu).append(`
 <div id="drawer_in_extension_list_button" class="list-group-item flex-container flexGap5 interactable">
     <div class="fa-solid fa-table extensionsMenuExtensionButton"></div>
-    <span>增强记忆表格</span>
+    <span>Таблица расширенной памяти</span>
 </div>
 `);
         // 设置点击事件
@@ -157,12 +157,12 @@ async function importTableSet() {
                 keyListHTML += '</ul>';
 
                 const tableInitPopup = $(`<div>
-                    <p>即将导入的设置项 (第一级):</p>
+                    <p>Будут импортированы следующие настройки (первый уровень):</p>
                     ${keyListHTML}
-                    <p>是否继续导入并重置这些设置？</p>
+                    <p>Продолжить импорт и сброс этих настроек?</p>
                 </div>`);
 
-                const confirmation = await EDITOR.callGenericPopup(tableInitPopup, EDITOR.POPUP_TYPE.CONFIRM, '导入设置确认', { okButton: "继续导入", cancelButton: "取消" });
+                const confirmation = await EDITOR.callGenericPopup(tableInitPopup, EDITOR.POPUP_TYPE.CONFIRM, 'Подтверждение импорта настроек', { okButton: "Импортировать", cancelButton: "Отмена" });
                 if (!confirmation) return; // 用户取消导入
 
                 // 用户确认导入后，进行数据应用
@@ -176,16 +176,16 @@ async function importTableSet() {
                 // 重新转换模板
                 initTableStructureToTemplate()
                 BASE.refreshTempView(true) // 刷新模板视图
-                EDITOR.success('导入成功并已重置所选设置'); // 提示用户导入成功
+                EDITOR.success('Импорт завершён, выбранные настройки сброшены'); // 提示用户导入成功
 
             } catch (error) {
-                EDITOR.error('JSON 文件解析失败，请检查文件格式是否正确。', error.message, error); // 提示 JSON 解析失败
-                console.error("文件读取或解析错误:", error); // 打印详细错误信息到控制台
+                EDITOR.error('Ошибка разбора JSON, проверьте формат файла.', error.message, error); // 提示 JSON 解析失败
+                console.error("Ошибка чтения или разбора файла:", error); // 打印详细错误信息到控制台
             }
         };
 
         reader.onerror = (error) => {
-            EDITOR.error(`文件读取失败`, error.message, error); // 提示文件读取失败
+            EDITOR.error(`Не удалось прочитать файл`, error.message, error); // 提示文件读取失败
         };
 
         reader.readAsText(file); // 以文本格式读取文件内容
@@ -200,7 +200,7 @@ async function importTableSet() {
  */
 async function exportTableSet() {
     templateToTableStructure()
-    const { filterData, confirmation } = await filterTableDataPopup(USER.tableBaseSetting,"请选择需要导出的数据","")
+    const { filterData, confirmation } = await filterTableDataPopup(USER.tableBaseSetting,"Выберите данные для экспорта","")
     if (!confirmation) return;
 
     try {
@@ -211,9 +211,9 @@ async function exportTableSet() {
         a.download = `tableCustomConfig-${SYSTEM.generateRandomString(8)}.json`;
         a.click();
         URL.revokeObjectURL(url);
-        EDITOR.success('导出成功');
+        EDITOR.success('Экспорт выполнен');
     } catch (error) {
-        EDITOR.error(`导出失败`, error.message, error);
+        EDITOR.error(`Экспорт не удался`, error.message, error);
     }
 }
 
@@ -221,7 +221,7 @@ async function exportTableSet() {
  * 重置设置
  */
 async function resetSettings() {
-    const { filterData, confirmation } = await filterTableDataPopup(USER.tableBaseDefaultSettings, "请选择需要重置的数据","建议重置前先备份数据")
+    const { filterData, confirmation } = await filterTableDataPopup(USER.tableBaseDefaultSettings, "Выберите данные для сброса","Рекомендуется сделать резервную копию перед сбросом")
     if (!confirmation) return;
 
     try {
@@ -233,9 +233,9 @@ async function resetSettings() {
             initTableStructureToTemplate()
             BASE.refreshTempView(true)
         }
-        EDITOR.success('已重置所选设置');
+        EDITOR.success('Выбранные настройки сброшены');
     } catch (error) {
-        EDITOR.error(`重置设置失败`, error.message, error);
+        EDITOR.error(`Сброс настроек не удался`, error.message, error);
     }
 }
 
@@ -257,7 +257,7 @@ function InitBinging() {
     // 插件总体开关
     $('#table_switch').change(function () {
         USER.tableBaseSetting.isExtensionAble = this.checked;
-        EDITOR.success(this.checked ? '插件已开启' : '插件已关闭，可以打开和手动编辑表格但AI不会读表和生成');
+        EDITOR.success(this.checked ? 'Плагин включён' : 'Плагин выключен: таблицы можно редактировать вручную, но ИИ не будет читать или обновлять их');
         updateSystemMessageTableStatus();   // 将表格数据状态更新到系统消息中
     });
     // 调试模式开关

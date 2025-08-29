@@ -13,28 +13,28 @@ import { safeParse } from '../../utils/stringUtil.js';
 // 在解析响应后添加验证
 function validateActions(actions) {
     if (!Array.isArray(actions)) {
-        console.error('操作列表必须是数组');
+        console.error('Operation list must be an array');
         return false;
     }
     return actions.every(action => {
         // 检查必要字段
         if (!action.action || !['insert', 'update', 'delete'].includes(action.action.toLowerCase())) {
-            console.error(`无效的操作类型: ${action.action}`);
+            console.error(`Invalid action type: ${action.action}`);
             return false;
         }
         if (typeof action.tableIndex !== 'number') {
-            console.error(`tableIndex 必须是数字: ${action.tableIndex}`);
+            console.error(`tableIndex must be a number: ${action.tableIndex}`);
             return false;
         }
         if (action.action !== 'insert' && typeof action.rowIndex !== 'number') {
-            console.error(`rowIndex 必须是数字: ${action.rowIndex}`);
+            console.error(`rowIndex must be a number: ${action.rowIndex}`);
             return false;
         }
         // 检查 data 字段
         if (action.data && typeof action.data === 'object') {
             const invalidKeys = Object.keys(action.data).filter(k => !/^\d+$/.test(k));
             if (invalidKeys.length > 0) {
-                console.error(`发现非数字键: ${invalidKeys.join(', ')}`);
+                console.error(`Non-numeric keys found: ${invalidKeys.join(', ')}`);
                 return false;
             }
         }
@@ -47,7 +47,7 @@ function confirmTheOperationPerformed(content) {
     return `
 <div class="wide100p padding5 dataBankAttachments">
     <div class="refresh-title-bar">
-        <h2 class="refresh-title"> 请确认以下操作 </h2>
+        <h2 class="refresh-title"> Пожалуйста, подтвердите следующие действия </h2>
         <div>
 
         </div>
@@ -131,10 +131,10 @@ export function initRefreshTypeSelector() {
 
     // 如果没有选项，添加默认选项
     if ($selector.children().length === 0) {
-        $selector.append($('<option></option>').attr('value', 'rebuild_base').text('~~~看到这个选项说明出问题了~~~~'));
+        $selector.append($('<option></option>').attr('value', 'rebuild_base').text('~~~Если вы видите этот вариант, что-то пошло не так~~~~'));
     }
 
-    console.log('表格刷新类型选择器已更新');
+    console.log('Селектор типа обновления таблицы обновлён');
 
     // // 检查现有选项是否与profile_prompts一致
     // let needsUpdate = false;
@@ -309,8 +309,8 @@ export async function rebuildTableActions(force = false, silentUpdate = USER.tab
                 }
             } catch (error) {
                 EDITOR.clear();
-                EDITOR.error('主API请求错误: ' , error.message, error);
-                console.error('主API请求错误:', error);
+                EDITOR.error('Ошибка запроса к основному API: ', error.message, error);
+                console.error('Ошибка запроса к основному API:', error);
             }
         }
         else {
@@ -974,8 +974,8 @@ export async function executeIncrementalUpdateFromSummary(
                     return 'suspended';
                 }
             } catch (error) {
-                console.error('主API请求错误:', error);
-                EDITOR.error('主API请求错误: ' , error.message, error);
+                console.error('Ошибка запроса к основному API:', error);
+                EDITOR.error('Ошибка запроса к основному API: ', error.message, error);
                 return 'error';
             }
         } else { // Using Custom API
