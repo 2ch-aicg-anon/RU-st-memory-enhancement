@@ -81,40 +81,40 @@ export async function TableTwoStepSummary(mode) {
     const {piece: todoPiece} = USER.getChatPiece()
 
     if (todoPiece === undefined) {
-        console.log('未找到待填表的对话片段');
-        EDITOR.error('未找到待填表的对话片段，请检查当前对话是否正确。');
+        console.log('Не найден фрагмент для заполнения таблицы');
+        EDITOR.error('Не найден фрагмент для заполнения таблицы. Проверьте текущий диалог.');
         return;
     }
     let todoChats = todoPiece.mes;
 
-    console.log('待填表的对话片段:', todoChats);
+    console.log('Фрагмент для заполнения:', todoChats);
 
     // 检查是否开启执行前确认
-    const popupContentHtml = `<p>累计 ${todoChats.length} 长度的文本，是否开始独立填表？</p>`;
+    const popupContentHtml = `<p>Накопилось ${todoChats.length} символов текста. Запустить отдельное заполнение таблицы?</p>`;
     // 移除了模板选择相关的HTML和逻辑
 
     const popupId = 'stepwiseSummaryConfirm';
     const confirmResult = await newPopupConfirm(
         popupContentHtml,
-        "取消",
-        "执行填表",
+        "Отмена",
+        "Заполнить таблицу",
         popupId,
-        "不再提示", // dontRemindText: Permanently disables the popup
-        "一直选是"  // alwaysConfirmText: Confirms for the session
+        "Больше не спрашивать", // dontRemindText: Permanently disables the popup
+        "Всегда Да"  // alwaysConfirmText: Confirms for the session
     );
 
     console.log('newPopupConfirm result for stepwise summary:', confirmResult);
 
     if (confirmResult === false) {
-        console.log('用户取消执行独立填表: ', `(${todoChats.length}) `, toBeExecuted);
+        console.log('Пользователь отменил отдельное заполнение: ', `(${todoChats.length}) `, toBeExecuted);
         MarkChatAsWaiting(currentPiece, swipeUid);
     } else {
         // This block executes if confirmResult is true OR 'dont_remind_active'
         if (confirmResult === 'dont_remind_active') {
-            console.log('独立填表弹窗已被禁止，自动执行。');
-            EDITOR.info('已选择“一直选是”，操作将在后台自动执行...'); // <--- 增加后台执行提示
+            console.log('Окно отдельного заполнения отключено, выполняем автоматически.');
+            EDITOR.info('Выбрано "Всегда Да", операция выполняется в фоне...'); // <--- 增加后台执行提示
         } else { // confirmResult === true
-            console.log('用户确认执行独立填表 (或首次选择了“一直选是”并确认)');
+            console.log('Пользователь подтвердил отдельное заполнение (или впервые выбрал "Всегда Да" и подтвердил)');
         }
         manualSummaryChat(todoChats, confirmResult);
     }
@@ -139,25 +139,25 @@ export async function manualSummaryChat(todoChats, confirmResult) {
 
     // 只有当表格中已经有内容时，才执行“撤销并重做”
     if (initialPiece.hash_sheets && Object.keys(initialPiece.hash_sheets).length > 0) {
-        console.log('[Memory Enhancement] 立即填表：检测到表格中有数据，执行恢复操作...');
+        console.log('[Memory Enhancement] Немедленное заполнение: обнаружены данные, выполняю восстановление...');
         try {
             await undoSheets(0);
-            EDITOR.success('表格已恢复到上一版本。');
-            console.log('[Memory Enhancement] 表格恢复成功，准备执行填表。');
+            EDITOR.success('Таблица восстановлена к предыдущей версии.');
+            console.log('[Memory Enhancement] Восстановление успешно, готовлю заполнение.');
         } catch (e) {
-            EDITOR.error('恢复表格失败，操作中止。', e.message, e);
-            console.error('[Memory Enhancement] 调用 undoSheets 失败:', e);
+            EDITOR.error('Не удалось восстановить таблицу, операция прервана.', e.message, e);
+            console.error('[Memory Enhancement] Ошибка вызова undoSheets:', e);
             return;
         }
     } else {
-        console.log('[Memory Enhancement] 立即填表：检测到为空表，跳过恢复步骤，直接执行填表。');
+        console.log('[Memory Enhancement] Немедленное заполнение: таблица пуста, пропускаю восстановление.');
     }
 
     // 步骤二：以当前状态（可能已恢复）为基础，继续执行填表
     // 重新获取 piece，确保我们使用的是最新状态（无论是原始状态还是恢复后的状态）
     const { piece: referencePiece } = USER.getChatPiece();
     if (!referencePiece) {
-        EDITOR.error("无法获取用于操作的聊天片段，操作中止。");
+        EDITOR.error("Не удалось получить фрагмент для операции, выполнение остановлено.");
         return;
     }
     

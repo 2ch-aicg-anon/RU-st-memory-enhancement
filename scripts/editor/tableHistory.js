@@ -106,7 +106,7 @@ const histories = `
 }
 </style>
 <div class="table-history">
-    <h3>表格单元格历史记录</h3>
+    <h3>История ячеек таблицы</h3>
     <div class="history-tabs">
         <!-- 动态生成tabs -->
     </div>
@@ -140,7 +140,7 @@ async function updateTableHistoryData(container) {
 
     // 如果没有表格数据，显示提示
     if (!sheetsData || sheetsData.length === 0) {
-        sheetsContainer.append('<div class="history-empty">没有可显示的历史数据</div>');
+        sheetsContainer.append('<div class="history-empty">Нет отображаемых данных истории</div>');
         return;
     }
 
@@ -151,7 +151,7 @@ async function updateTableHistoryData(container) {
     sheetsData.forEach((sheetData, index) => {
         if (!sheetData.cellHistory || sheetData.cellHistory.length === 0) return;
 
-        const sheetName = sheetData.name || `表格${index + 1}`;
+        const sheetName = sheetData.name || `Таблица${index + 1}`;
         const sheetId = `history-sheet-${index}`;
         validSheetCount++;
 
@@ -183,15 +183,15 @@ async function updateTableHistoryData(container) {
             // 创建位置显示
             const positionDisplay = () => {
                 if (rowIndex === 0 && colIndex === 0) {
-                    return `<span style="color: var(--SmartThemeEmColor);">表格源</span>`;
+                    return `<span style="color: var(--SmartThemeEmColor);">Источник</span>`;
                 } else if (rowIndex === 0) {
-                    return `列 <span style="color: var(--SmartThemeQuoteColor);">${colIndex}</span>`;
+                    return `Колонка <span style="color: var(--SmartThemeQuoteColor);">${colIndex}</span>`;
                 } else if (colIndex === 0) {
-                    return `行 <span style="color: var(--SmartThemeQuoteColor);">${rowIndex}</span>`;
+                    return `Строка <span style="color: var(--SmartThemeQuoteColor);">${rowIndex}</span>`;
                 } else if (rowIndex > 0 && colIndex > 0) {
                     return `<span style="color: #4C8BF5;">${getColumnLetter(colIndex-1)}</span><span style="color: #34A853;">${rowIndex}</span>`;
                 }
-                return '<span style="color: #EA4335;">旧数据</span>';
+                return '<span style="color: #EA4335;">Старые данные</span>';
             }
 
             // 创建历史条目
@@ -210,7 +210,7 @@ async function updateTableHistoryData(container) {
 
         // 如果没有历史条目，显示提示
         if (validHistoryCount === 0) {
-            cellListContainer.append('<div class="history-empty">此表格没有历史数据</div>');
+            cellListContainer.append('<div class="history-empty">У этой таблицы нет истории</div>');
         }
 
         sheetContainer.append(cellListContainer);
@@ -219,7 +219,7 @@ async function updateTableHistoryData(container) {
 
     // 如果没有任何表格有历史数据，显示提示
     if (validSheetCount === 0) {
-        sheetsContainer.append('<div class="history-empty">没有可显示的历史数据</div>');
+        sheetsContainer.append('<div class="history-empty">Нет отображаемых данных истории</div>');
     }
 
     // 添加标签切换事件
