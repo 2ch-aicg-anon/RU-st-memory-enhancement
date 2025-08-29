@@ -1,5 +1,5 @@
 {
-    "display_name": "记忆增强插件",
+    "display_name": "Улучшение памяти",
     "loading_order": 100,
     "requires": [],
     "optional": [],
@@ -7,5 +7,5 @@
     "css": "assets/styles/style.css",
     "author": "muyoo",
     "version": "2.2.0",
-    "homePage": "https://github.com/muyoou/st-memory-enhancement"
+    "homePage": "https://github.com/muyoou/RU-st-memory-enhancement"
 }
