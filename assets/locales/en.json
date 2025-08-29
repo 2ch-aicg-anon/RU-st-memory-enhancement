@@ -101,6 +101,7 @@
     "customTableStyleTitle": "Custom Table Style",
     "customTableStyleDesc": "Customize the display style of the table. When the style content is empty, the original table is displayed by default.<br>Supports defining structure and style using HTML and CSS, and uses <code>\\$\\w\\s+</code> to locate cells.<br>For example, <code>$A0</code> represents the 1st column, 1st row (header), and <code>$A1</code> represents the 1st column, 2nd row (first row of table content).",
     "enableCustomStyleLabel": "Enable custom style for this table",
+    "enableCustomStylePreview": "Preview render result",
     "pushToChatLabel": "Push to conversation",
     "pushToChatDesc": "(When enabled, the style in the preview below for this table will be pushed to the conversation)",
     "replacementStyleLabel": "Replacement Style:",

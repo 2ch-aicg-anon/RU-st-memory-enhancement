@@ -93,7 +93,7 @@
     "pushSheetToChatStyleMode": "Режим",
     "pushSheetToChatStyleRegex": "Регулярное выражение",
     "pushSheetToChatStyleSimple": "Простой",
-    "pushToChatDesc": "Описание отправки в чат",
+    "pushToChatDesc": "Таблица будет отправлена в чат в стиле, определённом ниже",
     "pushToChatLabel": "Отправить в чат",
     "replacementStyleLabel": "Стиль замещения",
     "settings.hint.stepByStepUserPrompt": "(При независимом заполнении запрос будет отправлен в этой структуре; убедитесь, что он парсится как JSON)",
