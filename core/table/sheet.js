@@ -202,17 +202,17 @@ export class Sheet extends SheetBase {
             }
             BASE.sheetsData.context = sheets;
             if (!targetPiece) {
-                console.log("没用消息能承载hash_sheets数据，不予保存")
+                console.log('No message available to store hash_sheets data, skip saving')
                 return this
             }
             if (!targetPiece.hash_sheets) targetPiece.hash_sheets = {};
             targetPiece.hash_sheets[this.uid] = this.hashSheet?.map(row => row.map(hash => hash));
-            console.log('保存表格数据', targetPiece, this.hashSheet);
+            console.log('Saving table data', targetPiece, this.hashSheet);
             if (!manualSave) USER.saveChat();
 
             return this;
         } catch (e) {
-            EDITOR.error(`保存模板失败`, e.message, e);
+            EDITOR.error('Failed to save template', e.message, e);
             return false;
         }
     }
@@ -224,7 +224,7 @@ export class Sheet extends SheetBase {
     createNewSheet(column = 2, row = 2, isSave = true) {
         this.init(column, row);     // 初始化基本数据结构
         this.uid = `sheet_${SYSTEM.generateRandomString(8)}`;
-        this.name = `新表格_${this.uid.slice(-4)}`;
+        this.name = `new_sheet_${this.uid.slice(-4)}`;
         if (isSave) this.save();    // 保存新创建的 Sheet
         return this;                // 返回 Sheet 实例自身
     }
@@ -234,10 +234,10 @@ export class Sheet extends SheetBase {
      * @returns 表格内容提示词
      */
     getTableText(index, customParts = ['title', 'node', 'headers', 'rows', 'editRules']) {
-        console.log('获取表格内容提示词', this)
+        console.log('Get table content prompt', this)
         if (this.triggerSend && this.triggerSendDeep < 1) return ''; // 如果触发深度=0，则不发送，可以用作信息一览表
         const title = `* ${index}:${this.name}\n`;
-        const node = this.source.data.note && this.source.data.note !== '' ? '【说明】' + this.source.data.note + '\n' : '';
+        const node = this.source.data.note && this.source.data.note !== '' ? '[Note]' + this.source.data.note + '\n' : '';
         const headers = "rowIndex," + this.getCellsByRowIndex(0).slice(1).map((cell, index) => index + ':' + cell.data.value).join(',') + '\n';
         let rows = this.getSheetCSV()
         const editRules = this.#getTableEditRules() + '\n';
@@ -246,11 +246,11 @@ export class Sheet extends SheetBase {
 
         if (rows && this.triggerSend) {
             const chats = USER.getContext().chat;
-            console.log("进入触发发送模式,测试获取chats", chats)
+            console.log('Entering trigger send mode, checking chats', chats)
             // 提取所有聊天内容中的 content 值
             const chat_content = getLatestChatHistory(chats, this.triggerSendDeep)
-            console.log('获取聊天内容: ', chat_content)
-            console.log("聊天内容类型:", typeof (chat_content))
+            console.log('Chat content: ', chat_content)
+            console.log('Chat content type:', typeof (chat_content))
             const rowsArray = rows.split('\n').filter(line => {
                 line = line.trim();
                 if (!line) return false;
@@ -261,7 +261,7 @@ export class Sheet extends SheetBase {
             rows = rowsArray.join('\n');
         }
         let result = '';
-        console.log('测试获取表格内容提示词', customParts, result, this);
+        console.log('Testing table content prompt', customParts, result, this);
         if (customParts.includes('title')) {
             result += title;
         }
@@ -269,7 +269,7 @@ export class Sheet extends SheetBase {
             result += node;
         }
         if (customParts.includes('headers')) {
-            result += '【表格内容】\n' + headers;
+            result += '[Table Content]\n' + headers;
         }
         if (customParts.includes('rows')) {
             result += rows;
@@ -330,15 +330,15 @@ export class Sheet extends SheetBase {
                 this.loadJson(targetSheetData)
                 return this;
             }
-            throw new Error('未找到对应的模板');
+            throw new Error('Template not found');
         }
         if (typeof target === 'object') {
             if (target.domain === SheetBase.SheetDomain.global) {
-                console.log('从模板转化表格', target, this);
+                console.log('Convert template to sheet', target, this);
                 this.loadJson(target)
                 this.domain = 'chat'
                 this.uid = `sheet_${SYSTEM.generateRandomString(8)}`;
-                this.name = this.name.replace('模板', '表格');
+                this.name = this.name.replace('template', 'sheet');
                 this.template = target;
                 return this
             } else {
@@ -353,12 +353,12 @@ export class Sheet extends SheetBase {
      */
     #getTableEditRules() {
         const source = this.source;
-        if (this.required && this.isEmpty()) return '【增删改触发条件】\n插入：' + source.data.initNode + '\n'
+        if (this.required && this.isEmpty()) return '[Edit triggers]\nInsert: ' + source.data.initNode + '\n'
         else {
-            let editRules = '【增删改触发条件】\n'
-            if (source.data.insertNode) editRules += ('插入：' + source.data.insertNode + '\n')
-            if (source.data.updateNode) editRules += ('更新：' + source.data.updateNode + '\n')
-            if (source.data.deleteNode) editRules += ('删除：' + source.data.deleteNode + '\n')
+            let editRules = '[Edit triggers]\n'
+            if (source.data.insertNode) editRules += ('Insert: ' + source.data.insertNode + '\n')
+            if (source.data.updateNode) editRules += ('Update: ' + source.data.updateNode + '\n')
+            if (source.data.deleteNode) editRules += ('Delete: ' + source.data.deleteNode + '\n')
             return editRules
         }
     }

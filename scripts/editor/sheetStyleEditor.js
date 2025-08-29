@@ -112,8 +112,8 @@ async function getUIElements($dlg) {
 function updateGuideContent(elements, isRegex) {
     dom.toggleVisibility(elements.match_method_regex_container, isRegex);
     elements.push_to_chat_style_edit_guide_content.html(isRegex
-        ? `支持标准的正则表达式语法,使用<cycleDivide></cycleDivide>包裹局部代码可以实现局部循环，例如用于折叠道具、任务等。`
-        : `当样式内容为空时默认显示原始表格。支持HTML、CSS定义结构样式，并使用<code>\\$\\w\\s+</code>的方式定位单元格。<br>例如<code>$A0</code>代表第1列第1行(表头)，<code>$A1</code>代表第1列第2行(表内容第一行)。`
+        ? `Поддерживается стандартный синтаксис регулярных выражений. Оберните локальный код в <cycleDivide></cycleDivide>, чтобы повторять его (например, для списков предметов или задач).`
+        : `Если стиль пуст, отображается исходная таблица. Поддерживаются HTML и CSS, а ячейки обозначаются через <code>\\$\\w\\s+</code>.<br>Например, <code>$A0</code> — колонка 1, строка 1 (заголовок), <code>$A1</code> — колонка 1, строка 2.`
     );
 }
 
@@ -256,7 +256,7 @@ function initPresetStyleDropdown() {
             templateInstance.config.selectedCustomStyleKey = firstStyleKey;
         }
     } else {
-        dom.addOption(presetDropdown, 'default', '默认');
+        dom.addOption(presetDropdown, 'default', 'По умолчанию');
     }
 }
 
@@ -291,7 +291,7 @@ function bindEvents() {
 function bindStyleManagementEvents() {
     // 添加样式
     elements.addStyleButton.get(0).addEventListener('click', async function () {
-        const styleName = await EDITOR.callGenericPopup("输入新样式名称：", EDITOR.POPUP_TYPE.INPUT);
+        const styleName = await EDITOR.callGenericPopup("Введите название нового стиля:", EDITOR.POPUP_TYPE.INPUT);
         if (!styleName) return;
 
         templateInstance.config.customStyles = templateInstance.config.customStyles || {};
@@ -306,7 +306,7 @@ function bindStyleManagementEvents() {
         const selectedKey = dom.getValue(elements.presetStyle);
         if (selectedKey === 'default' || !templateInstance.config.customStyles[selectedKey]) return;
 
-        const newName = await EDITOR.callGenericPopup("修改样式名称：", EDITOR.POPUP_TYPE.INPUT, selectedKey);
+        const newName = await EDITOR.callGenericPopup("Изменить название стиля:", EDITOR.POPUP_TYPE.INPUT, selectedKey);
         if (!newName || newName === selectedKey) return;
 
         // 重命名样式
@@ -324,10 +324,10 @@ function bindStyleManagementEvents() {
     elements.deleteStyleButton.get(0).addEventListener('click', async function () {
         const selectedKey = dom.getValue(elements.presetStyle);
         if (selectedKey === 'default') {
-            return EDITOR.error('不能删除默认样式');
+            return EDITOR.error('Нельзя удалить стиль по умолчанию');
         }
 
-        const confirmation = await EDITOR.callGenericPopup("确定要删除此样式吗？", EDITOR.POPUP_TYPE.CONFIRM);
+        const confirmation = await EDITOR.callGenericPopup("Удалить этот стиль?", EDITOR.POPUP_TYPE.CONFIRM);
         if (!confirmation) return;
 
         delete templateInstance.config.customStyles[selectedKey];
@@ -338,12 +338,12 @@ function bindStyleManagementEvents() {
 
     // 导入样式
     elements.importStyleButton.get(0).addEventListener('click', async function () {
-        const importData = await EDITOR.callGenericPopup("粘贴样式配置JSON：", EDITOR.POPUP_TYPE.INPUT, '', { rows: 10 });
+        const importData = await EDITOR.callGenericPopup("Вставьте JSON конфигурации стиля:", EDITOR.POPUP_TYPE.INPUT, '', { rows: 10 });
         if (!importData) return;
 
         try {
             const styleData = JSON.parse(importData);
-            const styleName = styleData.name || "导入样式";
+            const styleName = styleData.name || "Импортированный стиль";
 
             // 移除不需要的属性
             delete styleData.name;
@@ -356,9 +356,9 @@ function bindStyleManagementEvents() {
             dom.setValue(elements.presetStyle, styleName);
             dom.triggerEvent(elements.presetStyle, 'change');
 
-            EDITOR.success('导入样式成功');
+            EDITOR.success('Стиль успешно импортирован');
         } catch (e) {
-            EDITOR.error('导入样式失败，JSON格式错误', e.message, e);
+            EDITOR.error('Не удалось импортировать стиль: неверный JSON', e.message, e);
         }
     });
 
@@ -369,7 +369,7 @@ function bindStyleManagementEvents() {
 
         const exportData = { ...templateInstance.config.customStyles[selectedKey], name: selectedKey };
         navigator.clipboard.writeText(JSON.stringify(exportData, null, 2))
-            .then(() => EDITOR.success('样式已复制到剪贴板'));
+            .then(() => EDITOR.success('Стиль скопирован в буфер обмена'));
     });
 }
 
@@ -392,7 +392,7 @@ function bindPreviewAndCopyEvents() {
         const previewHtml = `
             <div>
                 <div style="margin-bottom: 10px; display: flex; align-items: center;">
-                    <span style="margin-right: 10px;">基于:</span>
+                    <span style="margin-right: 10px;">Основано на:</span>
                     <select id="preview_benchmark_selector" style="min-width: 100px">${benchmarkOptions}</select>
                 </div>
                 <textarea id="table_to_chat_text_preview" rows="10" style="width: 100%">${initialText}</textarea>
@@ -417,7 +417,7 @@ function bindPreviewAndCopyEvents() {
     // 复制按钮
     elements.copyTextButton.get(0).addEventListener('click', () =>
         navigator.clipboard.writeText(elements.rendererDisplay.html())
-            .then(() => EDITOR.success('HTML内容已复制到剪贴板')));
+            .then(() => EDITOR.success('HTML-контент скопирован в буфер обмена')));
 }
 
 /**
@@ -442,7 +442,7 @@ async function initializeEditor() {
 export async function openSheetStyleRendererPopup(originInstance) {
     // 初始化弹窗
     const manager = await SYSTEM.getTemplate('customSheetStyle');
-    const tableRendererPopup = new EDITOR.Popup(manager, EDITOR.POPUP_TYPE.CONFIRM, '', { large: true, wide: true, allowVerticalScrolling: true, okButton: "保存修改", cancelButton: "取消" });
+    const tableRendererPopup = new EDITOR.Popup(manager, EDITOR.POPUP_TYPE.CONFIRM, '', { large: true, wide: true, allowVerticalScrolling: true, okButton: "Сохранить изменения", cancelButton: "Отмена" });
     const $dlg = $(tableRendererPopup.dlg);
     templateInstance = originInstance;
 
@@ -458,16 +458,16 @@ export async function openSheetStyleRendererPopup(originInstance) {
         const finalConfig = collectConfigThenUpdateTemplate();
         const alternateLevel = Number(finalConfig.alternateLevel);
         const styleBasedOn = ["html", "csv", "json", "array"];
-        const numberBoollen = isNaN(alternateLevel) || alternateLevel < 0 || Number.isInteger(alternateLevel) === false;  //是否满足非负整数
-        const styleBoollen = styleBasedOn.includes(finalConfig.customStyles[finalConfig.selectedCustomStyleKey].basedOn);      //方式必须为html、csv、json、array
-        if (numberBoollen || (alternateLevel > 0 && !styleBoollen)) {     //输入的插入层级必须为非负整数，且不能为MarkDown格式否则改为0
+        const numberBoollen = isNaN(alternateLevel) || alternateLevel < 0 || Number.isInteger(alternateLevel) === false;  // must be non-negative integer
+        const styleBoollen = styleBasedOn.includes(finalConfig.customStyles[finalConfig.selectedCustomStyleKey].basedOn);      // basedOn must be html, csv, json, or array
+        if (numberBoollen || (alternateLevel > 0 && !styleBoollen)) {     // insert level must be non-negative; markdown not allowed
             finalConfig.alternateLevel = 0;
-            EDITOR.warning('穿插层级必须为非负整数，且不能为MarkDown格式，否则强制改为0');
+            EDITOR.warning('Уровень вставки должен быть неотрицательным целым и не может быть Markdown; установлено 0');
         }
         Object.assign(originInstance.config, finalConfig);
-        console.log('表格样式已更新', originInstance.config.alternateLevel);
+        console.log('Стиль таблицы обновлён', originInstance.config.alternateLevel);
         originInstance.save();
         BASE.updateSystemMessageTableStatus()
-        EDITOR.success('表格样式已更新');
+        EDITOR.success('Стиль таблицы обновлён');
     }
 }

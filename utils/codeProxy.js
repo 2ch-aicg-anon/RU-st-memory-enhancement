@@ -28,7 +28,7 @@ export const createProxyWithUserSetting = (target, allowEmpty = false) => {
             }
             // 尝试从老版本的数据位置 USER.getExtensionSettings().muyoo_dataTable 中获取
             if (USER.getExtensionSettings()[target] && property in USER.getExtensionSettings()[target]) {
-                console.log(`变量 ${property} 未在用户配置中找到, 已从老版本数据中获取`)
+                console.log(`Variable ${property} not found in user config; retrieved from legacy data`)
                 const value = USER.getExtensionSettings()[target][property];
                 if (!USER.getSettings()[target]) {
                     USER.getSettings()[target] = {}; // 初始化，如果不存在
@@ -38,7 +38,7 @@ export const createProxyWithUserSetting = (target, allowEmpty = false) => {
             }
             // 如果 USER.getExtensionSettings().muyoo_dataTable 中也不存在，则从 defaultSettings 中获取
             if (USER.tableBaseDefaultSettings && property in USER.tableBaseDefaultSettings) {
-                console.log(`变量 ${property} 未找到, 已从默认设置中获取`)
+                console.log(`Variable ${property} not found; using default setting`)
                 return USER.tableBaseDefaultSettings[property];
             }
             // 如果 defaultSettings 中也不存在，则检查是否允许为空
@@ -46,11 +46,11 @@ export const createProxyWithUserSetting = (target, allowEmpty = false) => {
                 return undefined;
             }
             // 如果 defaultSettings 中也不存在，则报错
-            EDITOR.error(`变量 ${property} 未在默认设置中找到, 请检查代码`)
+            EDITOR.error(`Variable ${property} missing in default settings, please check code`)
             return undefined;
         },
         set: (_, property, value) => {
-            console.log(`设置变量 ${property} 为 ${value}`)
+            console.log(`Set variable ${property} to ${value}`)
             if (!USER.getSettings()[target]) {
                 USER.getSettings()[target] = {}; // 初始化，如果不存在
             }
