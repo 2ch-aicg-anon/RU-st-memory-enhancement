@@ -22,8 +22,8 @@ function handleCellValue(cell) {
  * @returns 新插入行的索引
  */
 export function insertRow(tableIndex, data) {
-    if (tableIndex == null) return EDITOR.error('insert函数，tableIndex函数为空');
-    if (data == null) return EDITOR.error('insert函数，data函数为空');
+    if (tableIndex == null) return EDITOR.error('insert function, tableIndex is empty');
+    if (data == null) return EDITOR.error('insert function, data is empty');
 
     // 获取表格对象，支持新旧系统
     const table = DERIVED.any.waitingTable[tableIndex];
@@ -50,10 +50,10 @@ export function insertRow(tableIndex, data) {
                 }
             });
 
-            console.log(`插入成功: table ${tableIndex}, row ${rowCount + 1}`);
+            console.log(`Insert succeeded: table ${tableIndex}, row ${rowCount + 1}`);
             return rowCount + 1;
         } catch (error) {
-            console.error('插入行失败:', error);
+            console.error('Failed to insert row:', error);
             return -1;
         }
     } else {
@@ -66,12 +66,12 @@ export function insertRow(tableIndex, data) {
         const dataStr = JSON.stringify(newRowArray);
         // 检查是否已存在相同行
         if (table.content.some(row => JSON.stringify(row) === dataStr)) {
-            console.log(`跳过重复插入: table ${tableIndex}, data ${dataStr}`);
+            console.log(`Skipped duplicate insert: table ${tableIndex}, data ${dataStr}`);
             return -1; // 返回-1表示未插入
         }
         table.content.push(newRowArray);
         const newRowIndex = table.content.length - 1;
-        console.log(`插入成功 (旧系统): table ${tableIndex}, row ${newRowIndex}`);
+        console.log(`Insert succeeded (legacy): table ${tableIndex}, row ${newRowIndex}`);
         return newRowIndex;
     }
 }
@@ -83,8 +83,8 @@ export function insertRow(tableIndex, data) {
  * @param {number} rowIndex 行索引
  */
 export function deleteRow(tableIndex, rowIndex) {
-    if (tableIndex == null) return EDITOR.error('delete函数，tableIndex函数为空');
-    if (rowIndex == null) return EDITOR.error('delete函数，rowIndex函数为空');
+    if (tableIndex == null) return EDITOR.error('delete function, tableIndex is empty');
+    if (rowIndex == null) return EDITOR.error('delete function, rowIndex is empty');
 
     // 获取表格对象，支持新旧系统
     const table = DERIVED.any.waitingTable[tableIndex];
@@ -98,7 +98,7 @@ export function deleteRow(tableIndex, rowIndex) {
 
             // 检查行索引是否有效
             if (actualRowIndex >= table.hashSheet.length || actualRowIndex <= 0) {
-                console.error(`无效的行索引: ${rowIndex}`);
+                console.error(`Invalid row index: ${rowIndex}`);
                 return;
             }
 
@@ -106,20 +106,20 @@ export function deleteRow(tableIndex, rowIndex) {
             const cell = table.findCellByPosition(actualRowIndex, 0);
             if (cell) {
                 cell.newAction('deleteSelfRow');
-                console.log(`删除成功: table ${tableIndex}, row ${rowIndex}`);
+                console.log(`Delete succeeded: table ${tableIndex}, row ${rowIndex}`);
             } else {
-                console.error(`未找到行: ${rowIndex}`);
+                console.error(`Row not found: ${rowIndex}`);
             }
         } catch (error) {
-            console.error('删除行失败:', error);
+            console.error('Failed to delete row:', error);
         }
     } else {
         // 旧系统：保持原有逻辑
         if (table.content && rowIndex >= 0 && rowIndex < table.content.length) {
             table.content.splice(rowIndex, 1);
-            console.log(`删除成功 (旧系统): table ${tableIndex}, row ${rowIndex}`);
+            console.log(`Delete succeeded (legacy): table ${tableIndex}, row ${rowIndex}`);
         } else {
-            console.error(`删除失败 (旧系统): table ${tableIndex}, 无效的行索引 ${rowIndex} 或 content 不存在`);
+            console.error(`Delete failed (legacy): table ${tableIndex}, invalid row index ${rowIndex} or content missing`);
         }
     }
 }
@@ -132,9 +132,9 @@ export function deleteRow(tableIndex, rowIndex) {
  * @param {object} data 更新的数据
  */
 export function updateRow(tableIndex, rowIndex, data) {
-    if (tableIndex == null) return EDITOR.error('update函数，tableIndex函数为空');
-    if (rowIndex == null) return EDITOR.error('update函数，rowIndex函数为空');
-    if (data == null) return EDITOR.error('update函数，data函数为空');
+    if (tableIndex == null) return EDITOR.error('update function, tableIndex is empty');
+    if (rowIndex == null) return EDITOR.error('update function, rowIndex is empty');
+    if (data == null) return EDITOR.error('update function, data is empty');
 
     // 获取表格对象，支持新旧系统
     const table = DERIVED.any.waitingTable[tableIndex];
@@ -148,7 +148,7 @@ export function updateRow(tableIndex, rowIndex, data) {
 
             // 检查行索引是否有效
             if (actualRowIndex >= table.hashSheet.length || actualRowIndex <= 0) {
-                console.error(`无效的行索引: ${rowIndex}`);
+                console.error(`Invalid row index: ${rowIndex}`);
                 return;
             }
 
@@ -165,9 +165,9 @@ export function updateRow(tableIndex, rowIndex, data) {
 
             // 保存更改
             table.save();
-            console.log(`更新成功: table ${tableIndex}, row ${rowIndex}`);
+            console.log(`Update succeeded: table ${tableIndex}, row ${rowIndex}`);
         } catch (error) {
-            console.error('更新行失败:', error);
+            console.error('Failed to update row:', error);
         }
     } else {
         // 旧系统：保持原有逻辑
@@ -175,9 +175,9 @@ export function updateRow(tableIndex, rowIndex, data) {
             Object.entries(data).forEach(([key, value]) => {
                 table.content[rowIndex][parseInt(key)] = handleCellValue(value);
             });
-            console.log(`更新成功 (旧系统): table ${tableIndex}, row ${rowIndex}`);
+            console.log(`Update succeeded (legacy): table ${tableIndex}, row ${rowIndex}`);
         } else {
-            console.error(`更新失败 (旧系统): table ${tableIndex}, row ${rowIndex} 不存在或 content 不存在`);
+            console.error(`Update failed (legacy): table ${tableIndex}, row ${rowIndex} not found or content missing`);
         }
     }
 }

@@ -13,28 +13,28 @@ import { safeParse } from '../../utils/stringUtil.js';
 // 在解析响应后添加验证
 function validateActions(actions) {
     if (!Array.isArray(actions)) {
-        console.error('操作列表必须是数组');
+        console.error('Operation list must be an array');
         return false;
     }
     return actions.every(action => {
         // 检查必要字段
         if (!action.action || !['insert', 'update', 'delete'].includes(action.action.toLowerCase())) {
-            console.error(`无效的操作类型: ${action.action}`);
+            console.error(`Invalid action type: ${action.action}`);
             return false;
         }
         if (typeof action.tableIndex !== 'number') {
-            console.error(`tableIndex 必须是数字: ${action.tableIndex}`);
+            console.error(`tableIndex must be a number: ${action.tableIndex}`);
             return false;
         }
         if (action.action !== 'insert' && typeof action.rowIndex !== 'number') {
-            console.error(`rowIndex 必须是数字: ${action.rowIndex}`);
+            console.error(`rowIndex must be a number: ${action.rowIndex}`);
             return false;
         }
         // 检查 data 字段
         if (action.data && typeof action.data === 'object') {
             const invalidKeys = Object.keys(action.data).filter(k => !/^\d+$/.test(k));
             if (invalidKeys.length > 0) {
-                console.error(`发现非数字键: ${invalidKeys.join(', ')}`);
+                console.error(`Non-numeric keys found: ${invalidKeys.join(', ')}`);
                 return false;
             }
         }
@@ -47,7 +47,7 @@ function confirmTheOperationPerformed(content) {
     return `
 <div class="wide100p padding5 dataBankAttachments">
     <div class="refresh-title-bar">
-        <h2 class="refresh-title"> 请确认以下操作 </h2>
+        <h2 class="refresh-title"> Пожалуйста, подтвердите следующие действия </h2>
         <div>
 
         </div>
@@ -131,10 +131,10 @@ export function initRefreshTypeSelector() {
 
     // 如果没有选项，添加默认选项
     if ($selector.children().length === 0) {
-        $selector.append($('<option></option>').attr('value', 'rebuild_base').text('~~~看到这个选项说明出问题了~~~~'));
+        $selector.append($('<option></option>').attr('value', 'rebuild_base').text('~~~Если вы видите этот вариант, что-то пошло не так~~~~'));
     }
 
-    console.log('表格刷新类型选择器已更新');
+    console.log('Селектор типа обновления таблицы обновлён');
 
     // // 检查现有选项是否与profile_prompts一致
     // let needsUpdate = false;
@@ -304,13 +304,13 @@ export async function rebuildTableActions(force = false, silentUpdate = USER.tab
             try {
                 rawContent = await handleMainAPIRequest(parsedSystemPrompt, userPrompt);
                 if (rawContent === 'suspended') {
-                    EDITOR.info('操作已取消');
+                    EDITOR.info('Операция отменена');
                     return
                 }
             } catch (error) {
                 EDITOR.clear();
-                EDITOR.error('主API请求错误: ' , error.message, error);
-                console.error('主API请求错误:', error);
+                EDITOR.error('Ошибка запроса к основному API: ', error.message, error);
+                console.error('Ошибка запроса к основному API:', error);
             }
         }
         else {
@@ -318,7 +318,7 @@ export async function rebuildTableActions(force = false, silentUpdate = USER.tab
                 rawContent = await handleCustomAPIRequest(parsedSystemPrompt, userPrompt);
                 if (rawContent === 'suspended') {
                     EDITOR.clear();
-                    EDITOR.info('操作已取消');
+                    EDITOR.info('Операция отменена');
                     return
                 }
             } catch (error) {
@@ -331,8 +331,8 @@ export async function rebuildTableActions(force = false, silentUpdate = USER.tab
         // 检查 rawContent 是否有效
         if (typeof rawContent !== 'string') {
             EDITOR.clear();
-            EDITOR.error('API响应内容无效，无法继续处理表格。');
-            console.error('API响应内容无效，rawContent:', rawContent);
+            EDITOR.error('Ответ API недействителен, обработка таблицы невозможна.');
+            console.error('Ответ API недействителен, rawContent:', rawContent);
             return;
         }
 
@@ -373,13 +373,13 @@ export async function rebuildTableActions(force = false, silentUpdate = USER.tab
 
                 // 如果不是静默更新，显示操作确认
                 if (!silentUpdate) {
-                    // 将uniqueActions内容推送给用户确认是否继续
+                    // Отправить список действий пользователю для подтверждения
                     const confirmContent = confirmTheOperationPerformed(cleanContentTable);
-                    const tableRefreshPopup = new EDITOR.Popup(confirmContent, EDITOR.POPUP_TYPE.TEXT, '', { okButton: "继续", cancelButton: "取消" });
+                    const tableRefreshPopup = new EDITOR.Popup(confirmContent, EDITOR.POPUP_TYPE.TEXT, '', { okButton: "Продолжить", cancelButton: "Отмена" });
                     EDITOR.clear();
                     await tableRefreshPopup.show();
                     if (!tableRefreshPopup.result) {
-                        EDITOR.info('操作已取消');
+                        EDITOR.info('Операция отменена');
                         return;
                     }
                 }
@@ -478,17 +478,17 @@ export async function rebuildSheets() {
 
     // Replace jQuery append with standard DOM methods
     const h3Element = document.createElement('h3');
-    h3Element.textContent = '重建表格数据';
+    h3Element.textContent = 'Пересобрать данные таблицы';
     container.appendChild(h3Element);
 
     const previewDiv1 = document.createElement('div');
     previewDiv1.className = 'rebuild-preview-item';
-    previewDiv1.innerHTML = `<span>执行完毕后确认？：</span>${USER.tableBaseSetting.bool_silent_refresh ? '否' : '是'}`;
+    previewDiv1.innerHTML = `<span>Подтверждать по завершении?: </span>${USER.tableBaseSetting.bool_silent_refresh ? 'Нет' : 'Да'}`;
     container.appendChild(previewDiv1);
 
     const previewDiv2 = document.createElement('div');
     previewDiv2.className = 'rebuild-preview-item';
-    previewDiv2.innerHTML = `<span>API：</span>${USER.tableBaseSetting.use_main_api ? '使用主API' : '使用备用API'}`;
+    previewDiv2.innerHTML = `<span>API: </span>${USER.tableBaseSetting.use_main_api ? 'Использовать основной API' : 'Использовать запасной API'}`;
     container.appendChild(previewDiv2);
 
     const hr = document.createElement('hr');
@@ -501,13 +501,13 @@ export async function rebuildSheets() {
     // 添加提示模板选择器
     const selectorContent = document.createElement('div');
     selectorContent.innerHTML = `
-        <span class="rebuild-preview-text" style="margin-top: 10px">提示模板：</span>
+        <span class="rebuild-preview-text" style="margin-top: 10px">Шаблон подсказки:</span>
         <select id="rebuild_template_selector" class="rebuild-preview-text text_pole" style="width: 100%">
-            <option value="">加载中...</option>
+            <option value="">Загрузка...</option>
         </select>
-        <span class="rebuild-preview-text" style="margin-top: 10px">模板信息：</span>
+        <span class="rebuild-preview-text" style="margin-top: 10px">Информация о шаблоне:</span>
         <div id="rebuild_template_info" class="rebuild-preview-text" style="margin-top: 10px"></div>
-        <span class="rebuild-preview-text" style="margin-top: 10px">其他要求：</span>
+        <span class="rebuild-preview-text" style="margin-top: 10px">Дополнительные требования:</span>
         <textarea id="rebuild_additional_prompt" class="rebuild-preview-text text_pole" style="width: 100%; height: 80px;"></textarea>
     `;
     selectorContainer.appendChild(selectorContent);
@@ -535,9 +535,9 @@ export async function rebuildSheets() {
     $selector.val(defaultTemplate);
     // 更新模板信息显示
     if (defaultTemplate === 'rebuild_base') {
-        $templateInfo.text("默认模板，适用于Gemini，Grok，DeepSeek，使用聊天记录和表格信息重建表格，应用于初次填表、表格优化等场景。破限来源于TT老师。");
+        $templateInfo.text("Шаблон по умолчанию, подходит для Gemini, Grok, DeepSeek; использует историю чата и данные таблиц для их восстановления и применяется при первичном заполнении и оптимизации. Ограничение снято благодаря TT.");
     } else {
-        const templateInfo = temps[defaultTemplate]?.info || '无模板信息';
+        const templateInfo = temps[defaultTemplate]?.info || 'Нет информации о шаблоне';
         $templateInfo.text(templateInfo);
     }
 
@@ -546,14 +546,14 @@ export async function rebuildSheets() {
     $selector.on('change', function () {
         const selectedTemplate = $(this).val();
         const template = temps[selectedTemplate];
-        $templateInfo.text(template.info || '无模板信息');
+        $templateInfo.text(template.info || 'Нет информации о шаблоне');
     })
 
 
 
     const confirmation = new EDITOR.Popup(container, EDITOR.POPUP_TYPE.CONFIRM, '', {
-        okButton: "继续",
-        cancelButton: "取消"
+        okButton: "Продолжить",
+        cancelButton: "Отмена"
     });
 
     await confirmation.show();
@@ -575,7 +575,7 @@ function tableDataToTables(tablesData) {
             ? item.columns.map(col => String(col)) // 强制转换为字符串
             : inferColumnsFromContent(item.content); // 从 content 推断
         return {
-            tableName: item.tableName || '未命名表格',
+            tableName: item.tableName || 'Безымянная таблица',
             columns,
             content: item.content || [],
             insertedRows: item.insertedRows || [],
@@ -587,7 +587,7 @@ function tableDataToTables(tablesData) {
 function inferColumnsFromContent(content) {
     if (!content || content.length === 0) return [];
     const firstRow = content[0];
-    return firstRow.map((_, index) => `列${index + 1}`);
+    return firstRow.map((_, index) => `Колонка ${index + 1}`);
 }
 
 /**
@@ -693,7 +693,7 @@ export async function modifyRebuildTemplate() {
     else
         initialData = USER.tableBaseSetting.rebuild_message_template_list[selectedTemplate]
     const formInstance = new Form(sheetConfig, initialData);
-    const popup = new EDITOR.Popup(formInstance.renderForm(), EDITOR.POPUP_TYPE.CONFIRM, '', { okButton: "保存", allowVerticalScrolling: true, cancelButton: "取消" });
+    const popup = new EDITOR.Popup(formInstance.renderForm(), EDITOR.POPUP_TYPE.CONFIRM, '', { okButton: "Сохранить", allowVerticalScrolling: true, cancelButton: "Отмена" });
     await popup.show();
     if (popup.result) {
         const result = formInstance.result();
@@ -728,7 +728,7 @@ export async function newRebuildTemplate() {
         user_prompt_begin: USER.tableBaseSetting.rebuild_default_message_template,
     };
     const formInstance = new Form(sheetConfig, initialData);
-    const popup = new EDITOR.Popup(formInstance.renderForm(), EDITOR.POPUP_TYPE.CONFIRM, '', { okButton: "保存", allowVerticalScrolling: true, cancelButton: "取消" });
+    const popup = new EDITOR.Popup(formInstance.renderForm(), EDITOR.POPUP_TYPE.CONFIRM, '', { okButton: "Сохранить", allowVerticalScrolling: true, cancelButton: "Отмена" });
     await popup.show();
     if (popup.result) {
         const result = formInstance.result();
@@ -766,7 +766,7 @@ export async function deleteRebuildTemplate() {
     if (selectedTemplate === 'rebuild_base') {
         return EDITOR.warning('默认模板不能删除');
     }
-    const confirmation = await EDITOR.callGenericPopup('是否删除此模板？', EDITOR.POPUP_TYPE.CONFIRM, '', { okButton: "继续", cancelButton: "取消" });
+    const confirmation = await EDITOR.callGenericPopup('Удалить этот шаблон?', EDITOR.POPUP_TYPE.CONFIRM, '', { okButton: "Продолжить", cancelButton: "Отмена" });
     if (confirmation) {
         const newTemplates = {};
         Object.values(USER.tableBaseSetting.rebuild_message_template_list).forEach((template) => {
@@ -970,19 +970,19 @@ export async function executeIncrementalUpdateFromSummary(
                     isSilentMode
                 );
                 if (rawContent === 'suspended') {
-                    EDITOR.info('操作已取消 (主API)');
+                    EDITOR.info('Операция отменена (основной API)');
                     return 'suspended';
                 }
             } catch (error) {
-                console.error('主API请求错误:', error);
-                EDITOR.error('主API请求错误: ' , error.message, error);
+                console.error('Ошибка запроса к основному API:', error);
+                EDITOR.error('Ошибка запроса к основному API: ', error.message, error);
                 return 'error';
             }
         } else { // Using Custom API
             try {
                 rawContent = await handleCustomAPIRequest(systemPromptForApi, userPromptForApi, true, isSilentMode);
                 if (rawContent === 'suspended') {
-                    EDITOR.info('操作已取消 (自定义API)');
+                    EDITOR.info('Операция отменена (пользовательский API)');
                     return 'suspended';
                 }
             } catch (error) {
