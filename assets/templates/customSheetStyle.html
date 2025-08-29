@@ -65,7 +65,7 @@
         </div>
         <div id="push_to_chat_alternate_options">
             <div style="display: flex; flex-direction: row; align-items: center; gap: 8px; text-align: left">
-                <label style="white-space: nowrap;">穿插层级：</label>
+                <label style="white-space: nowrap;" data-i18n="Alternate level">穿插层级：</label>
                 <small style="white-space: nowrap;" data-i18n="pushToChatDesc">(层级为0时不穿插，否则相同层级的会穿插推送)</small>
                 <input type="text" class="text_pole" id="table_to_alternate" placeholder=".*">
             </div>
@@ -80,7 +80,8 @@
         <hr>
 
         <div class="flex-container" id="push_to_chat_style_edit_guide" style="margin-bottom: 10px">
-            <small id="push_to_chat_style_edit_guide_content" style="justify-content: left; text-align: left">
+            <small id="push_to_chat_style_edit_guide_content" style="justify-content: left; text-align: left"
+                data-i18n="customStyleTip">
                 当样式内容为空时默认显示原始表格。支持HTML、CSS定义结构样式，并使用<code>\$\w\s+</code>的方式定位单元格。
                 <br>例如<code>$A0</code>代表第1列第1行(表头)，<code>$A1</code>代表第1列第2行(表内容第一行)。
             </small>
@@ -97,7 +98,7 @@
                     <option value="array" data-i18n="pushSheetToChatStyleBasedOnArray">Array</option>
                 </select>
                 <div class="menu_button button-square-icon fa-solid fa-eye" style="padding: 0; margin: 0" id="table-push-to-chat-style-preview" title="预览样式" data-i18n="table push to chat style preview button"></div>
-                <a href="https://regexr.com/" class="menu_button_icon menu_button interactable" title="前往RegExr网站测试" style="margin-top: 0">
+                <a href="https://regexr.com/" class="menu_button_icon menu_button interactable" title="前往RegExr网站测试" data-i18n="[title]Open RegExr" style="margin-top: 0">
                     <i class="fa-solid fa-vial"></i>
                     <span style="font-size: 0.7rem">RegExr</span>
                 </a>
@@ -105,7 +106,7 @@
 
             <div id="push_to_chat_regex_options">
                 <div style=" display: flex; flex-direction: column; text-align: left">
-                    <label>正则：</label>
+                    <label data-i18n="Regex">正则：</label>
                     <input type="text" class="text_pole" id="table_to_chat_regex" placeholder=".*">
                 </div>
             </div>

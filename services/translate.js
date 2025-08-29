@@ -1,5 +1,3 @@
-import applicationFunctionManager from "./appFuncManager.js";
-
 let _lang = undefined;
 let _translations = undefined;
 
@@ -10,12 +8,12 @@ let _translations = undefined;
  */
 async function fetchTranslations(locale) {
     try {
-        const response = await fetch(`/scripts/extensions/third-party/st-memory-enhancement/assets/locales/${locale}.json`);
+        const response = await fetch(`/scripts/extensions/third-party/RU-st-memory-enhancement/assets/locales/${locale}.json`);
         if (!response.ok) {
-            console.warn(`Could not load translations for ${locale}, falling back to zh-cn`);
-            // Fallback to Chinese if requested locale is not available
-            if (locale !== 'zh-cn') {
-                return await fetchTranslations('zh-cn');
+            console.warn(`Could not load translations for ${locale}, falling back to ru-ru`);
+            // Fallback to Russian if requested locale is not available
+            if (locale !== 'ru-ru') {
+                return await fetchTranslations('ru-ru');
             }
             return {};
         }
@@ -28,11 +26,8 @@ async function fetchTranslations(locale) {
 
 async function getTranslationsConfig() {
     if (_lang === undefined) {
-        _lang = applicationFunctionManager.getCurrentLocale();
-    }
-    if (_lang === undefined) {
-        _lang = 'zh-cn';
-        return { translations: {}, lang: _lang };
+        // Default to Russian locale regardless of SillyTavern settings
+        _lang = 'ru-ru';
     }
     if (_translations === undefined) {
         _translations = await fetchTranslations(_lang)

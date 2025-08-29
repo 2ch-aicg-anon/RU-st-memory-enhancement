@@ -345,7 +345,7 @@ export const DERIVED = {
 export const SYSTEM = {
     getTemplate: (name) => {
         console.log('getTemplate', name);
-        return APP.renderExtensionTemplateAsync('third-party/st-memory-enhancement/assets/templates', name);
+        return APP.renderExtensionTemplateAsync('third-party/RU-st-memory-enhancement/assets/templates', name);
     },
 
     codePathLog: function (context = '', deep = 2) {
