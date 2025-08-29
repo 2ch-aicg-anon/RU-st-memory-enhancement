@@ -66,7 +66,7 @@ export class SheetTemplate extends SheetBase {
     createNewTemplate(column = 2, row = 2, isSave = true) {
         this.init(column, row); // 初始化基本数据结构
         this.uid = `template_${SYSTEM.generateRandomString(8)}`;
-        this.name = `新模板_${this.uid.slice(-4)}`;
+        this.name = `new_template_${this.uid.slice(-4)}`;
         this.loadCells();
         isSave && this.save(); // 保存新创建的 Sheet
         return this; // 返回 Sheet 实例自身
@@ -86,12 +86,12 @@ export class SheetTemplate extends SheetBase {
             } else {
                 templates.push(sheetDataToSave);
             }
-            console.log("保存模板数据", templates)
+            console.log('Saving template data', templates)
             USER.getSettings().table_database_templates = templates;
             if(!manualSave) USER.saveSettings();
             return this;
         } catch (e) {
-            EDITOR.error(`保存模板失败`, e.message, e);
+            EDITOR.error('Failed to save template', e.message, e);
             return null;
         }
     }
@@ -124,7 +124,7 @@ export class SheetTemplate extends SheetBase {
             return this;
         }
 
-        throw new Error('未找到对应的模板');
+        throw new Error('Template not found');
         // if (target instanceof Sheet) {
         //     // 从 Sheet 实例模板化
         //     this.uid = `template_${SYSTEM.generateRandomString(8)}`;
