@@ -515,7 +515,7 @@ async function renderSheetsDOM(mesId = -1) {
     $(viewSheetsContainer).empty()
     viewSheetsContainer.style.paddingBottom = '150px'
     renderEditableSheetsDOM(sheets, viewSheetsContainer, DERIVED.any.isRenderLastest ? undefined : () => { })
-    $("#table_indicator").text(DERIVED.any.isRenderLastest ? "现在是可修改的活动表格" : `现在是第${deep}轮对话中的旧表格，不可被更改`)
+    $("#table_indicator").text(DERIVED.any.isRenderLastest ? "Сейчас активная таблица доступна для изменения" : `Отображается старая таблица из ${deep}-го раунда, изменение запрещено`)
     task.log()
 }
 
