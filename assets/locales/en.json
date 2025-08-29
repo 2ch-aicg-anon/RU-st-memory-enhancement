@@ -60,6 +60,7 @@
     "Disable dynamic effects description": "(If you experience lag when the plugin is enabled, try enabling this)",
     "Disable GPU table rendering": "Disable GPU table rendering",
     "Disable GPU table rendering description": "(Manually disable GPU rendering for tables)",
+    "All table cell display mode": "Display mode of table cells in all positions",
 
 
     "appHeaderTableDrawer.html": "______________________________________________________________________________________________________________________________________________",
